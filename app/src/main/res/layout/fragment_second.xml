@@ -7,21 +7,214 @@
     tools:context=".SecondFragment">
 
     <TextView
-        android:id="@+id/textview_second"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/button_second"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/textViewLocation"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Location:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextLocation"
+        app:layout_constraintEnd_toStartOf="@+id/editTextLocation"
+        app:layout_constraintTop_toTopOf="@+id/editTextLocation" />
+
+    <TextView
+        android:id="@+id/textViewHeight"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Height:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextHeight"
+        app:layout_constraintEnd_toStartOf="@+id/editTextHeight"
+        app:layout_constraintStart_toStartOf="@+id/textViewLocation"
+        app:layout_constraintTop_toTopOf="@+id/editTextHeight"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <TextView
+        android:id="@+id/textViewWeight"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Weight:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextWeight"
+        app:layout_constraintEnd_toStartOf="@+id/editTextWeight"
+        app:layout_constraintStart_toStartOf="@+id/textViewHeight"
+        app:layout_constraintTop_toTopOf="@+id/editTextWeight"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <TextView
+        android:id="@+id/textViewSex"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Sex:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSex"
+        app:layout_constraintEnd_toStartOf="@+id/editTextSex"
+        app:layout_constraintStart_toStartOf="@+id/textViewWeight"
+        app:layout_constraintTop_toTopOf="@+id/editTextSex"
+        app:layout_constraintVertical_bias="0.55" />
 
     <Button
         android:id="@+id/button_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Back to Home"
+        app:backgroundTint="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Age"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
+
+    <EditText
+        android:id="@+id/editTextLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Location"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+
+    <EditText
+        android:id="@+id/editTextHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Height"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLocation" />
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Weight"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextHeight" />
+
+    <EditText
+        android:id="@+id/editTextSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Sex"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextWeight" />
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_second" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/editProfilePictureButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Upload"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="Save"
+        app:backgroundTint="#5CDB5C"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Name:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextName"
+        app:layout_constraintEnd_toStartOf="@+id/editTextName"
+        app:layout_constraintStart_toStartOf="@+id/textViewAge"
+        app:layout_constraintTop_toTopOf="@+id/editTextName" />
+
+    <TextView
+        android:id="@+id/textViewGoals"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Goals:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinnerGoals"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerGoals"
+        app:layout_constraintStart_toStartOf="@+id/textViewSex"
+        app:layout_constraintTop_toTopOf="@+id/spinnerGoals" />
+
+    <TextView
+        android:id="@+id/textViewAge"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:text="Age:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextNumber"
+        app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
+        app:layout_constraintStart_toStartOf="@+id/textViewLocation"
+        app:layout_constraintTop_toTopOf="@+id/editTextNumber" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="94dp" />
+
+    <Spinner
+        android:id="@+id/spinnerGoals"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="18dp"
+        android:entries="@array/goals_array"
+        app:layout_constraintEnd_toEndOf="@+id/editTextSex"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSex" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
