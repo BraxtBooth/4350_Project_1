@@ -131,10 +131,10 @@
         android:inputType="textPersonName"
         android:text="Name"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/profileImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -149,12 +149,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:text="Upload"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
+        app:layout_constraintEnd_toStartOf="@+id/profileImageView"
+        app:layout_constraintTop_toTopOf="@+id/profileImageView" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/saveProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
