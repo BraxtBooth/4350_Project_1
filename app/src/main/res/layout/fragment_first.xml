@@ -7,12 +7,13 @@
     tools:context=".FirstFragment">
 
     <TextView
-        android:id="@+id/textview_first"
+        android:id="@+id/textViewWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_first_fragment"
-        app:layout_constraintBottom_toTopOf="@id/button_first"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:textSize="20dp"
+        android:text="@string/Welcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,9 +21,93 @@
         android:id="@+id/button_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/next"
+        android:text="@string/Profile_Page_Nav_Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_first" />
+        app:layout_constraintTop_toBottomOf="@id/textViewWelcome" />
+
+    <Button
+        android:id="@+id/button_BMI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/BMI_Button"
+        app:layout_constraintBottom_toTopOf="@+id/button_first"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_hikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/hikesButtonsText"
+        app:layout_constraintBottom_toTopOf="@+id/button_BMI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewEstimatedBMR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/BMR_Estimate_Label"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewWelcome"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWelcome" />
+
+    <TextView
+        android:id="@+id/textViewCaloriesToHit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/Calories_Label"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewEstimatedBMR"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLbsToLose" />
+
+    <TextView
+        android:id="@+id/textViewBMRValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fill here"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEstimatedBMR"
+        app:layout_constraintStart_toEndOf="@+id/textViewEstimatedBMR"
+        app:layout_constraintTop_toTopOf="@+id/textViewEstimatedBMR"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewCaloriesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fill here"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCaloriesToHit"
+        app:layout_constraintStart_toEndOf="@+id/textViewCaloriesToHit"
+        app:layout_constraintTop_toTopOf="@+id/textViewCaloriesToHit"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewLbsToLose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Lbs to lose this week: "
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewEstimatedBMR"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEstimatedBMR" />
+
+    <EditText
+        android:id="@+id/editLbsToLose"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewLbsToLose"
+        app:layout_constraintStart_toEndOf="@+id/textViewLbsToLose"
+        app:layout_constraintTop_toTopOf="@+id/textViewLbsToLose" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

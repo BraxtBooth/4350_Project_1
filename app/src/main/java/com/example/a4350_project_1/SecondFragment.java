@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,26 +40,37 @@ public class SecondFragment extends Fragment {
         EditText nameText = (EditText) getView().findViewById(R.id.editTextName);
         EditText ageText = (EditText) getView().findViewById(R.id.editTextNumber);
         EditText locationText = (EditText) getView().findViewById(R.id.editTextLocation);
-        EditText heightText = (EditText) getView().findViewById(R.id.editTextHeight);
-        EditText weightText = (EditText) getView().findViewById(R.id.editTextWeight);
-        EditText sexText = (EditText) getView().findViewById(R.id.editTextSex);
+        NumberPicker heightFeet = (NumberPicker) getView().findViewById(R.id.editHeightFeet);
+        NumberPicker heightInches = (NumberPicker) getView().findViewById(R.id.editHeightInches);
+        EditText weightText = (EditText) getView().findViewById(R.id.editWeightNumber);
+        Spinner sexText = (Spinner) getView().findViewById(R.id.sexSpinner);
         Spinner goalsText = (Spinner) getView().findViewById(R.id.spinnerGoals);
+        Spinner activityText = (Spinner) getView().findViewById(R.id.activitySpinner);
+
+        heightFeet.setMinValue(1);
+        heightFeet.setMaxValue(10);
+        heightInches.setMinValue(0);
+        heightInches.setMaxValue(11);
 
         String nameValue = sp.getString("name", "Name");
         String ageValue = sp.getString("age", "Age");
         String locationValue = sp.getString("location", "Location");
-        String heightValue = sp.getString("height", "Height");
+        Integer heightFeetValue = sp.getInt("feet", 0);
+        Integer heightInchesValue = sp.getInt("inches", 0);
         String weightValue = sp.getString("weight", "Weight");
-        String sexValue = sp.getString("sex", "Sex");
+        Integer sexValue = sp.getInt("sex", 0);
         Integer goalsValue = sp.getInt("goals", 0);
+        Integer activityValue = sp.getInt("activity", 0);
 
         nameText.setText(nameValue);
         ageText.setText(ageValue);
         locationText.setText(locationValue);
-        heightText.setText(heightValue);
+        heightFeet.setValue(heightFeetValue);
+        heightInches.setValue(heightInchesValue);
         weightText.setText(weightValue);
-        sexText.setText(sexValue);
+        sexText.setSelection(sexValue);
         goalsText.setSelection(goalsValue);
+        activityText.setSelection(activityValue);
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +80,7 @@ public class SecondFragment extends Fragment {
             }
         });
 
-        // save data from the user to the SavedPreferences
+        // Save data from the user to the SavedPreferences
         binding.saveProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,10 +88,12 @@ public class SecondFragment extends Fragment {
                 editor.putString("name", nameText.getText().toString());
                 editor.putString("age", ageText.getText().toString());
                 editor.putString("location", locationText.getText().toString());
-                editor.putString("height", heightText.getText().toString());
+                editor.putInt("feet", heightFeet.getValue());
+                editor.putInt("inches", heightInches.getValue());
                 editor.putString("weight", weightText.getText().toString());
-                editor.putString("sex", sexText.getText().toString());
+                editor.putInt("sex", sexText.getSelectedItemPosition());
                 editor.putInt("goals", goalsText.getSelectedItemPosition());
+                editor.putInt("activity", activityText.getSelectedItemPosition());
                 editor.apply();
 
                 Activity activity = getActivity();

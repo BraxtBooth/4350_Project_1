@@ -3,13 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.4683760683760684" />
+        <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.4683760683760684" />
+        <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/layout/activity_main.xml" value="0.4551282051282051" />
+        <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/layout/content_main.xml" value="0.4551282051282051" />
+        <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/layout/fragment_first.xml" value="0.4466666666666667" />
         <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/layout/fragment_second.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/danga/Desktop/CS 4530/Project code/4350_Project_1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.241" />
-        <entry key="..\:/Users/danga/Desktop/CS 4530/Project code/4350_Project_1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.241" />
-        <entry key="..\:/Users/danga/Desktop/CS 4530/Project code/4350_Project_1/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/danga/Desktop/CS 4530/Project code/4350_Project_1/app/src/main/res/layout/content_main.xml" value="0.36367753623188404" />
-        <entry key="..\:/Users/danga/Desktop/CS 4530/Project code/4350_Project_1/app/src/main/res/layout/fragment_first.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/danga/Desktop/CS 4530/Project code/4350_Project_1/app/src/main/res/layout/fragment_second.xml" value="0.36367753623188404" />
+        <entry key="..\:/Users/Braxton/AndroidStudioProjects/4350_Project_1/app/src/main/res/menu/menu_main.xml" value="0.3162393162393162" />
       </map>
     </option>
   </component>
