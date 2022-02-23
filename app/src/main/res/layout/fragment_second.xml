@@ -283,4 +283,26 @@
         app:layout_constraintEnd_toEndOf="@+id/editTextLocation"
         app:layout_constraintTop_toTopOf="@+id/editWeightNumber" />
 
+    <TextView
+        android:id="@+id/textViewLbsChange"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:text="Lbs to lose per week:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editLbsChange"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/textViewActivity"
+        app:layout_constraintTop_toTopOf="@+id/editLbsChange" />
+
+    <NumberPicker
+        android:id="@+id/editLbsChange"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:text="0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/activitySpinner" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

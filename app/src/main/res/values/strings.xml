@@ -15,4 +15,5 @@
     <string name="BMR_Estimate_Label">Estimated BMR:</string>
     <string name="Calories_Label">Calories to hit week goal:</string>
     <string name="hikesButtonsText">Hikes</string>
+    <string name="Calories_Label_Goal">"Calories to hit goal: "</string>
 </resources>

@@ -42,7 +42,7 @@ public class FirstFragment extends Fragment {
         SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
         TextView BMRText = (TextView) getView().findViewById(R.id.textViewBMRValue);
         TextView CaloriesText = (TextView) getView().findViewById(R.id.textViewCaloriesValue);
-        EditText LbsToLoseText = (EditText) getView().findViewById(R.id.editLbsToLose);
+        TextView CaloriesWarning = (TextView) getView().findViewById(R.id.textViewCalorieWarning);
         String BMRTextOutput = "Please enter height, weight, age, and sex on profile page";
         String CaloriesTextOutput = "";
         float feet = sp.getInt("feet", 0);
@@ -51,34 +51,55 @@ public class FirstFragment extends Fragment {
         float age = Integer.parseInt(sp.getString("age", "0"));
         int sex = sp.getInt("sex", 0);
         String[] sexEntries = getResources().getStringArray(R.array.Sex_Array);
-        int activity = sp.getInt("activity", 0);
-        String[] activityEntries = getResources().getStringArray(R.array.Activity_Array);
-
-        String LbsToLoseValue = sp.getString("lbsToLose", "1");
-        LbsToLoseText.setText(LbsToLoseValue);
+        int activityIndex = sp.getInt("activity", 0);
+        int goalIndex = sp.getInt("goals", 0);
+        Integer lbsChange = sp.getInt("lbschange", 0);
+        float bmr = 0;
+        float calorieFactor = (float) (activityIndex==0 ? 1.55 : 1.2);
+        float calorieIntake = 0;
 
         if(feet !=0 && weight!=0 && age != 0){
             DecimalFormat df = new DecimalFormat();
             df.setMaximumFractionDigits(2);
             float totalHeight = feet*12 + inches;
             if(sexEntries[sex].equals("Male")){
-                float bmr = (float) (66.47+(6.24*weight)+(12.7*totalHeight)-(6.755*age));
+                bmr = (float) (66.47+(6.24*weight)+(12.7*totalHeight)-(6.755*age));
                 BMRTextOutput = String.valueOf(df.format(bmr));
             }
             else if(sexEntries[sex].equals("Female")){
-                float bmr = (float) (655.1 + (4.35*weight) + (4.7*totalHeight) - (4.7*age));
+                bmr = (float) (655.1 + (4.35*weight) + (4.7*totalHeight) - (4.7*age));
                 BMRTextOutput = String.valueOf(df.format(bmr));
             }
             else{
                 BMRTextOutput = "Cannot calculate BMR based on Sex";
             }
 
+            if(bmr != 0) {
+                if (goalIndex == 0) {
+                    //Gain Weight
+                    calorieIntake = bmr*calorieFactor+(lbsChange==1 ? 500: 1000);
+                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
 
+                } else if (goalIndex == 1) {
+                    //Lose Weight
+                    calorieIntake = bmr*calorieFactor-(lbsChange==1 ? 500: 1000);
+                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+                } else if (goalIndex == 2) {
+                    //Maintain Weight
+                    calorieIntake = bmr*calorieFactor;
+                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+                }
+            }
         }
         BMRText.setText(BMRTextOutput);
         CaloriesText.setText(CaloriesTextOutput);
 
-
+        if((calorieIntake < 1200 && sexEntries[sex].equals("Male")) || (calorieIntake<1000 && sexEntries[sex].equals("Females"))){
+            CaloriesWarning.setVisibility(View.VISIBLE);
+        }
+        else{
+            CaloriesWarning.setVisibility(View.GONE);
+        }
 
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
