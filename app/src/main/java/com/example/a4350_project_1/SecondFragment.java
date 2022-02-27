@@ -59,23 +59,23 @@ public class SecondFragment extends Fragment {
         lbsChange.setMinValue(1);
         lbsChange.setMaxValue(2);
 
-        String nameValue = sp.getString("name", "Name");
-        String ageValue = sp.getString("age", "Age");
-        String locationValue = sp.getString("location", "Location");
-        Integer heightFeetValue = sp.getInt("feet", 0);
-        Integer heightInchesValue = sp.getInt("inches", 0);
-        String weightValue = sp.getString("weight", "0");
+        String nameValue = sp.getString("name", "John");
+        Integer ageValue = sp.getInt("age", 25);
+        String locationValue = sp.getString("location", "Salt Lake City, US");
+        Integer heightFeetValue = sp.getInt("feet", 5);
+        Integer heightInchesValue = sp.getInt("inches", 11);
+        Integer weightValue = sp.getInt("weight", 175);
         Integer sexValue = sp.getInt("sex", 0);
         Integer goalsValue = sp.getInt("goals", 0);
         Integer activityValue = sp.getInt("activity", 0);
         Integer lbsChangeValue = sp.getInt( "lbschange", 0);
 
         nameText.setText(nameValue);
-        ageText.setText(ageValue);
+        ageText.setText(ageValue.toString());
         locationText.setText(locationValue);
         heightFeet.setValue(heightFeetValue);
         heightInches.setValue(heightInchesValue);
-        weightText.setText(weightValue);
+        weightText.setText(weightValue.toString());
         sexText.setSelection(sexValue);
         goalsText.setSelection(goalsValue);
         activityText.setSelection(activityValue);
@@ -123,11 +123,11 @@ public class SecondFragment extends Fragment {
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("name", nameText.getText().toString());
-                editor.putString("age", ageText.getText().toString());
+                editor.putInt("age", Integer.parseInt(String.valueOf(ageText.getText())));
                 editor.putString("location", locationText.getText().toString());
                 editor.putInt("feet", heightFeet.getValue());
                 editor.putInt("inches", heightInches.getValue());
-                editor.putString("weight", weightText.getText().toString());
+                editor.putInt("weight", Integer.parseInt(String.valueOf(weightText.getText())));
                 editor.putInt("sex", sexText.getSelectedItemPosition());
                 editor.putInt("goals", goalsText.getSelectedItemPosition());
                 editor.putInt("activity", activityText.getSelectedItemPosition());

@@ -42,6 +42,12 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+
+//        SharedPreferences.Editor preferencesEditor = sp.edit();
+//        preferencesEditor.putInt("weight", 24);
+//        preferencesEditor.putInt("age", 42);
+//        preferencesEditor.apply();
+
         TextView BMRText = (TextView) getView().findViewById(R.id.textViewBMRValue);
         TextView CaloriesText = (TextView) getView().findViewById(R.id.textViewCaloriesValue);
         TextView CaloriesWarning = (TextView) getView().findViewById(R.id.textViewCalorieWarning);
@@ -49,8 +55,8 @@ public class FirstFragment extends Fragment {
         String CaloriesTextOutput = "";
         float feet = sp.getInt("feet", 0);
         float inches = sp.getInt("inches", 0);
-        float weight = Integer.valueOf(sp.getString( "weight", "0"));
-        float age = Integer.parseInt(sp.getString("age", "0"));
+        float weight = sp.getInt( "weight", 0);
+        float age = sp.getInt("age", 0);
         int sex = sp.getInt("sex", 0);
         String[] sexEntries = getResources().getStringArray(R.array.Sex_Array);
         int activityIndex = sp.getInt("activity", 0);
