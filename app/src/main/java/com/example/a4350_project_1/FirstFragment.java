@@ -136,7 +136,7 @@ public class FirstFragment extends Fragment {
 
                 float feet = sp.getInt("feet", 0);
                 float inches = sp.getInt("inches", 0);
-                float weight = Integer.valueOf(sp.getString( "weight", "0"));
+                float weight = sp.getInt( "weight", 0);
 
                 if(feet !=0 && weight != 0){
                     DecimalFormat df = new DecimalFormat();
