@@ -1,7 +1,10 @@
 package com.example.a4350_project_1;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -116,6 +119,13 @@ public class SecondFragment extends Fragment {
                         }
             }
         );
+
+        binding.uploadProfilePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).selectImage(getContext());
+            }
+        });
 
         // Save data from the user to the SavedPreferences
         binding.saveProfileButton.setOnClickListener(new View.OnClickListener() {
