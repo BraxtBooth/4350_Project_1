@@ -156,32 +156,12 @@
             android:id="@+id/editTextName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="64dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="John"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
-
-        <ImageView
-            android:id="@+id/profileImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
-
-        <Button
-            android:id="@+id/editProfilePictureButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="Upload"
-            app:layout_constraintBottom_toBottomOf="@+id/profileImageView"
-            app:layout_constraintEnd_toStartOf="@+id/profileImageView"
-            app:layout_constraintTop_toTopOf="@+id/profileImageView" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/saveProfileButton"
@@ -189,6 +169,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:text="Save"
+            android:textColor="#000000"
             app:backgroundTint="#5CDB5C"
             app:layout_constraintBottom_toBottomOf="@+id/button_second"
             app:layout_constraintEnd_toEndOf="parent"
@@ -312,6 +293,29 @@
             android:text="0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/activitySpinner" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:backgroundTint="#5CDB5C"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/saveProfileButton"
+            app:layout_constraintEnd_toEndOf="@+id/saveProfileButton"
+            app:srcCompat="@android:drawable/stat_sys_upload_done" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:text="Image Upload"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+            app:layout_constraintTop_toTopOf="@+id/floatingActionButton" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
