@@ -28,6 +28,7 @@ import com.example.a4350_project_1.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -66,10 +67,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Choose your profile picture");
 
         builder.setItems(options, new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int item) {
-
                 if (options[item].equals("Take Photo")) {
                     Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, 0);
@@ -89,36 +88,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        FloatingActionButton profilePicture = (FloatingActionButton) findViewById(R.id.fab);
+//        FloatingActionButton profilePicture = (FloatingActionButton) findViewById(R.id.fab);
+        ImageView profilePicture = (ImageView) findViewById(R.id.imageView);
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
+//                        Log.println(Log.ERROR, "CAMERA_DATA:", data.getData().toString());
                         Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
                         profilePicture.setImageBitmap(selectedImage);
-//                        imageView.setImageBitmap(selectedImage);
                     }
-
                     break;
                 case 1:
-                    if (resultCode == RESULT_OK) {
+                    if (resultCode == RESULT_OK  && data != null) {
                         try {
-
-                            Bundle extras = data.getExtras();
-                            Bitmap thumbnailImage = (Bitmap) extras.get("data");
-                            profilePicture.setImageBitmap(thumbnailImage);
-
-
-                            final Uri imageUri = data.getData();
-                            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                            Log.println(Log.ERROR, "GALLERY_DATA:", data.getData().toString());
+                            Uri imageUri = data.getData();
+                            InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                             profilePicture.setImageBitmap(selectedImage);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
 //                            Toast.makeText(PostImage.this, "Something went wrong", Toast.LENGTH_LONG).show();
                         }
-
                     }else {
 //                        Toast.makeText(PostImage.this, "You haven't picked Image",Toast.LENGTH_LONG).show();
                     }
@@ -159,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
 
 
 

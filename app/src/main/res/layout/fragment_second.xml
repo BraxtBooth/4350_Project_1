@@ -317,6 +317,15 @@
             app:layout_constraintEnd_toStartOf="@+id/uploadProfilePicture"
             app:layout_constraintTop_toTopOf="@+id/uploadProfilePicture" />
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="88dp"
+            android:layout_height="87dp"
+            app:layout_constraintEnd_toStartOf="@+id/saveProfileButton"
+            app:layout_constraintStart_toEndOf="@+id/button_second"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:srcCompat="@tools:sample/avatars" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

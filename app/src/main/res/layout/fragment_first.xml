@@ -22,6 +22,7 @@
         android:id="@+id/button_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="128dp"
         android:text="@string/Profile_Page_Nav_Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +47,7 @@
         android:text="@string/hikesButtonsText"
         app:layout_constraintBottom_toTopOf="@+id/button_BMI"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -98,11 +100,21 @@
         android:id="@+id/textViewCalorieWarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="8sp"
-        android:textColor="#ff0000"
         android:text="Your calorie intake is too low with your preferences"
+        android:textColor="#ff0000"
+        android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/textViewCaloriesToHit"
         app:layout_constraintTop_toBottomOf="@+id/textViewCaloriesToHit" />
+
+    <Button
+        android:id="@+id/button_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/Weather_Label"
+        app:layout_constraintBottom_toTopOf="@+id/button_hikes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

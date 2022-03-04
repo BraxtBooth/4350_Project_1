@@ -6,27 +6,34 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.HandlerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.a4350_project_1.databinding.FragmentFirstBinding;
 
+import org.json.JSONException;
+
+import java.lang.ref.WeakReference;
+import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
+    private FetchWeatherTask mFetchWeatherTask = new FetchWeatherTask();
+    private WeatherData mWeatherData;
 
     @Override
     public View onCreateView(
@@ -41,6 +48,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mFetchWeatherTask.setWeakReference(this);
         SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
 
 //        SharedPreferences.Editor preferencesEditor = sp.edit();
@@ -149,6 +157,71 @@ public class FirstFragment extends Fragment {
                 Toast.makeText(activity, outputText, Toast.LENGTH_LONG).show();
             }
         });
+
+        binding.buttonWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadWeatherData(sp.getString("location", ""));
+            }
+        });
+
+
+    }
+
+    private void loadWeatherData(String location){
+        mFetchWeatherTask.execute(this,location);
+    }
+    private class FetchWeatherTask{
+        WeakReference<FirstFragment> weatherFragmentWeakReference;
+        private ExecutorService executorService = Executors.newSingleThreadExecutor();
+        private Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+
+        public void setWeakReference(FirstFragment ref)
+        {
+            weatherFragmentWeakReference = new WeakReference<FirstFragment>(ref);
+        }
+        public void execute(FirstFragment ref, String location){
+
+            executorService.execute(new Runnable(){
+                @Override
+                public void run(){
+                    String jsonWeatherData;
+                    URL weatherDataURL = NetworkUtils.buildURLFromString(location);
+                    jsonWeatherData = null;
+                    try{
+                        jsonWeatherData = NetworkUtils.getDataFromURL(weatherDataURL);
+                        postToMainThread(jsonWeatherData);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        private void postToMainThread(String jsonWeatherData)
+        {
+            FirstFragment localRef = weatherFragmentWeakReference.get();
+            mainThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (jsonWeatherData != null) {
+                        try {
+                            localRef.mWeatherData = JSONWeatherUtils.getWeatherData(jsonWeatherData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        if (localRef.mWeatherData != null) {
+//                            localRef.mTvTemp.setText("" + Math.round(localRef.mWeatherData.getTemperature().getTemp() - 273.15) + " C");
+//                            localRef.mTvHum.setText("" + localRef.mWeatherData.getCurrentCondition().getHumidity() + "%");
+//                            localRef.mTvPress.setText("" + localRef.mWeatherData.getCurrentCondition().getPressure() + " hPa");
+                            int fahrenheit_val = (int)(Math.round(1.8*(localRef.mWeatherData.getTemperature().getTemp() - 273.15) + 32));
+                            Toast.makeText(getActivity(),  String.valueOf(fahrenheit_val) + " F", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(activity, outputText, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     @Override

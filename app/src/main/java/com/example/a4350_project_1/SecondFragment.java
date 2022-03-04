@@ -148,6 +148,7 @@ public class SecondFragment extends Fragment {
                 Toast.makeText(activity, "Information Saved.", Toast.LENGTH_LONG).show();
             }
         });
+
     }
 
     @Override
