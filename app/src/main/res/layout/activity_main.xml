@@ -16,17 +16,6 @@
 
     <include layout="@layout/content_main" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabCustomSize="64dp"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="@dimen/fab_margin"
-        app:maxImageSize="64dp"
-        android:src="@drawable/user_icon" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -35,5 +24,15 @@
         app:layout_anchor="@+id/appBarLayout"
         app:layout_anchorGravity="top|center"
         app:popupTheme="@style/Theme.4350_Project_1.PopupOverlay" />
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom|end"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_anchor="@+id/toolbar"
+        app:layout_anchorGravity="bottom|end"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

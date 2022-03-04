@@ -4,20 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -28,8 +22,8 @@ import com.example.a4350_project_1.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -52,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navController.navigate(R.id.SecondFragment);
-            }
-        });
+        SharedPreferences sp = this.getPreferences(Context.MODE_PRIVATE);
+        String imageUri = sp.getString("image", "android.resource://com.example.a4350_project_1/2131230877");
+        ImageView profileImg = (ImageView) findViewById(R.id.profileImage);
+        profileImg.setImageURI(Uri.parse(imageUri));
+
+
     }
 
     public void selectImage(Context context) {
@@ -89,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        FloatingActionButton profilePicture = (FloatingActionButton) findViewById(R.id.fab);
-        ImageView profilePicture = (ImageView) findViewById(R.id.imageView);
+        ImageView profilePicture = (ImageView) findViewById(R.id.profileImage);
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
