@@ -1,15 +1,14 @@
 <resources>
-    <string name="app_name">4350_Project_1</string>
+    <string name="app_name">LifeStyle App</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">LifeStyle App</string>
     <string name="second_fragment_label">Profile</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="Welcome">Welcome to the Lifestyle app</string>
+    <string name="Welcome">Lifestyle App</string>
     <string name="Profile_Page_Nav_Button">Profile</string>
     <string name="BMI_Button">BMI</string>
     <string name="BMR_Estimate_Label">Estimated BMR:</string>
@@ -17,4 +16,6 @@
     <string name="hikesButtonsText">Hikes</string>
     <string name="Calories_Label_Goal">"Calories to hit goal: "</string>
     <string name="Weather_Label">Weather</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,18 +1,16 @@
 package com.example.a4350_project_1;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,13 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.a4350_project_1.databinding.FragmentSecondBinding;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class SecondFragment extends Fragment {
-
-    private FragmentSecondBinding binding;
-
+public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(
@@ -36,13 +30,13 @@ public class SecondFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        View view = inflater.inflate(R.layout.fragment_second, container, false);
+        return view;
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SharedPreferences sp = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         EditText nameText = (EditText) getView().findViewById(R.id.editTextName);
         EditText ageText = (EditText) getView().findViewById(R.id.editTextNumber);
         EditText locationText = (EditText) getView().findViewById(R.id.editTextLocation);
@@ -84,14 +78,6 @@ public class SecondFragment extends Fragment {
         activityText.setSelection(activityValue);
         lbsChange.setValue(lbsChangeValue);
 
-        binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(SecondFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
-            }
-        });
-
         goalsText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -120,15 +106,17 @@ public class SecondFragment extends Fragment {
             }
         );
 
-        binding.uploadProfilePicture.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton uploadProfilePicture = (FloatingActionButton) getView().findViewById(R.id.uploadProfilePicture);
+        uploadProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).selectImage(getContext());
+                ((ProfileActivity)getActivity()).selectImage(getContext());
             }
         });
 
         // Save data from the user to the SavedPreferences
-        binding.saveProfileButton.setOnClickListener(new View.OnClickListener() {
+        Button saveProfileButton = (Button) getView().findViewById(R.id.saveProfileButton);
+        saveProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = sp.edit();
@@ -151,10 +139,5 @@ public class SecondFragment extends Fragment {
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
 }
