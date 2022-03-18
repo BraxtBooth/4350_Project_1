@@ -15,8 +15,20 @@
     <string name="BMR_Estimate_Label">Estimated BMR:</string>
     <string name="Calories_Label">Calories to hit week goal:</string>
     <string name="hikesButtonsText">Hikes</string>
-    <string name="Calories_Label_Goal">"Calories to hit goal: "</string>
+    <string name="Calories_Label_Goal">Calories to hit goal:</string>
+
+
+    <!--Labels for the Weather Fragment-->
     <string name="Weather_Label">Weather</string>
+    <string name="Weather_Temperature_Label">Temperature:</string>
+    <string name="Weather_Humidity_Label">Humidity:</string>
+    <string name="Weather_Pressure_Label">Pressure:</string>
+    <string name="Weather_MaxTemperature_Label">Max Temperature:</string>
+    <string name="Weather_MinTemperature_Label">Min Temperature:</string>
+    <string name="Weather_Cloud_Label">Cloud Percentage:</string>
+    <string name="Weather_Snow_Label">Snow Amount:</string>
+    <string name="Weather_Rain_Label">Rain Amount:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

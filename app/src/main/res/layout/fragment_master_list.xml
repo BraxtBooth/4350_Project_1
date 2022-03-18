@@ -21,14 +21,12 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="231dp"
-            android:layout_height="68dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="36dp"
+            android:layout_width="202dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="32dp"
             android:text="@string/Welcome"
-            android:textSize="28sp"
+            android:textSize="34sp"
             app:layout_constraintEnd_toStartOf="@+id/ivProfileImage"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,11 +34,10 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
             android:layout_marginTop="52dp"
             android:text="@string/BMR_Estimate_Label"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.19"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -48,11 +45,10 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/Calories_Label_Goal"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -76,9 +72,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="52dp"
             android:text="value"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.037"
+            android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -86,11 +80,10 @@
             android:id="@+id/tvCaloriesValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="8dp"
             android:text="value"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.26"
+            android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/tvMBRValue" />
 

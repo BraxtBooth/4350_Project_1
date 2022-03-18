@@ -27,7 +27,15 @@ import java.util.concurrent.Executors;
 
 public class WeatherFragment extends Fragment implements View.OnClickListener {
 
-    private TextView mTvItemDetail;
+    private TextView tvWeatherSubtitle;
+    private TextView tvTempVal;
+    private TextView tvMaxTempVal;
+    private TextView tvMinTempVal;
+    private TextView tvHumidityVal;
+    private TextView tvPressureVal;
+    private TextView tvCloudsVal;
+    private TextView tvSnowVal;
+    private TextView tvRainVal;
     private WeatherFragment.FetchWeatherTask mFetchWeatherTask = new FetchWeatherTask();
     private WeatherData mWeatherData;
 
@@ -44,14 +52,12 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
         //Get the text view
-        mTvItemDetail = (TextView) view.findViewById(R.id.tvExample);
+//        mTvItemDetail = (TextView) view.findViewById(R.id.tvWeatherTitle);
 
         //Get the incoming detail text
         String detailString = getArguments().getString("item_detail");
 
-        if (detailString != null) {
-            mTvItemDetail.setText(detailString);
-        }
+        if (detailString != null) { }
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         loadWeatherData(sp.getString("location", ""));
@@ -88,7 +94,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                     jsonWeatherData = null;
                     try {
                         jsonWeatherData = NetworkUtils.getDataFromURL(weatherDataURL);
-                        postToMainThread(jsonWeatherData);
+                        postToMainThread(jsonWeatherData, location);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -96,7 +102,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
             });
         }
 
-        private void postToMainThread(String jsonWeatherData){
+        private void postToMainThread(String jsonWeatherData, String location){
             WeatherFragment localRef = weatherFragmentWeakReference.get();
             mainThreadHandler.post(new Runnable() {
                 @Override
@@ -108,20 +114,38 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                             e.printStackTrace();
                         }
                         if (localRef.mWeatherData != null) {
+                            tvWeatherSubtitle = (TextView) getView().findViewById(R.id.tvWeatherSubtitle);
+                            tvTempVal = (TextView) getView().findViewById(R.id.tvTempValue);
+                            tvMaxTempVal = (TextView) getView().findViewById(R.id.tvMaxTempValue);
+                            tvMinTempVal = (TextView) getView().findViewById(R.id.tvMinTempValue);
+                            tvHumidityVal = (TextView) getView().findViewById(R.id.tvHumidityValue);
+                            tvPressureVal = (TextView) getView().findViewById(R.id.tvPressureValue);
+                            tvCloudsVal = (TextView) getView().findViewById(R.id.tvCloudValue);
+                            tvSnowVal = (TextView) getView().findViewById(R.id.tvSnowValue);
+                            tvRainVal = (TextView) getView().findViewById(R.id.tvRainValue);
+
+                            int temp = roundToInt(kelvinToFahrenheit(localRef.mWeatherData.getTemperature().getTemp()));
+                            int maxTemp = roundToInt(kelvinToFahrenheit(localRef.mWeatherData.getTemperature().getMaxTemp()));
+                            int minTemp = roundToInt(kelvinToFahrenheit(localRef.mWeatherData.getTemperature().getMinTemp()));
+                            int humidity = roundToInt(localRef.mWeatherData.getCurrentCondition().getHumidity());
+                            int pressure = roundToInt(localRef.mWeatherData.getCurrentCondition().getPressure());
+                            int cloudPercentage = roundToInt(localRef.mWeatherData.getClouds().getPerc());
+                            int snowAmount = roundToInt(localRef.mWeatherData.getSnow().getAmount());
+                            int rainAmount = roundToInt(localRef.mWeatherData.getRain().getAmount());
+
+                            tvWeatherSubtitle.setText("Weather information around " + location + ":");
+                            tvTempVal.setText(temp + " F");
+                            tvMaxTempVal.setText(maxTemp + " F");
+                            tvMinTempVal.setText(minTemp + " F");
+                            tvHumidityVal.setText(humidity + "%");
+                            tvPressureVal.setText(pressure + " hPa");
+                            tvCloudsVal.setText(cloudPercentage + "%");
+                            tvSnowVal.setText(snowAmount + " mm");
+                            tvRainVal.setText(rainAmount + " mm");
+
 //                            localRef.mTvTemp.setText("" + Math.round(localRef.mWeatherData.getTemperature().getTemp() - 273.15) + " C");
 //                            localRef.mTvHum.setText("" + localRef.mWeatherData.getCurrentCondition().getHumidity() + "%");
 //                            localRef.mTvPress.setText("" + localRef.mWeatherData.getCurrentCondition().getPressure() + " hPa");
-                            int fahrenheit_val = (int)(Math.round(1.8 * (localRef.mWeatherData.getTemperature().getTemp() - 273.15) + 32));
-                            Toast.makeText(getActivity(),  String.valueOf(fahrenheit_val) + " F", Toast.LENGTH_LONG).show();
-                            Log.e("Temperature", String.valueOf(fahrenheit_val) + " F");
-                            Log.e("Humidity", String.valueOf(localRef.mWeatherData.getCurrentCondition().getHumidity()) );
-                            Log.e("Pressure", String.valueOf(localRef.mWeatherData.getCurrentCondition().getPressure()));
-                            Log.e("MaxTemp", String.valueOf(localRef.mWeatherData.getTemperature().getMaxTemp()));
-                            Log.e("MinTemp", String.valueOf(localRef.mWeatherData.getTemperature().getMinTemp()));
-                            Log.e("Cloud Percentage", String.valueOf(localRef.mWeatherData.getClouds().getPerc()));
-                            Log.e("Snow Amount", String.valueOf(localRef.mWeatherData.getSnow().getAmount()));
-                            Log.e("Rain Amount", String.valueOf(localRef.mWeatherData.getRain().getAmount()));
-//                            Toast.makeText(activity, outputText, Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -129,6 +153,13 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    // = = = Helper methods = = =
+    private int kelvinToFahrenheit(double temp){
+        return (int)(1.8 * (temp - 273.15) + 32);
+    }
 
+    private int roundToInt(double temp){
+        return (int)Math.round(temp);
+    }
 
 }
