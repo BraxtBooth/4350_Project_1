@@ -74,9 +74,14 @@ public class MasterListFragment extends Fragment {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
-        String imageUri = sp.getString("image", "android.resource://com.example.a4350_project_1/2131230877");
+        String imageUri = sp.getString("image", "");
         ImageView profileImg = (ImageView) getView().findViewById(R.id.ivProfileImage);
-        profileImg.setImageURI(Uri.parse(imageUri));
+        if(imageUri == ""){
+            profileImg.setImageResource(R.drawable.user_icon);
+        }else{
+            profileImg.setImageURI(Uri.parse(imageUri));
+        }
+
 
 //        SharedPreferences.Editor preferencesEditor = sp.edit();
 //        preferencesEditor.putInt("feet", 6);

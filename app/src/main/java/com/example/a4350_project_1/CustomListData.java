@@ -22,13 +22,13 @@ public class CustomListData implements Parcelable {
         }
 
     };
-    private List<String> mItemList;
-    private List<String> mItemDetails;
+    private List<String> modulesList;
+    private List<String> modulesListDetails;
 
     //Say how to read in from parcel
     private CustomListData(Parcel in) {
-        in.readStringList(mItemList);
-        in.readStringList(mItemDetails);
+        in.readStringList(modulesList);
+        in.readStringList(modulesListDetails);
     }
 
 //    public CustomListData(int numItems) {
@@ -45,23 +45,25 @@ public class CustomListData implements Parcelable {
     public CustomListData() {
         //Populate the item list with data
         //and populate the details list with details at the same time
-        mItemList = new ArrayList<>();
-        mItemDetails = new ArrayList<>();
-        mItemList.add("Profile");
-        mItemDetails.add("Profile fragment");
-        mItemList.add("Check BMI");
-        mItemDetails.add("BMI fragment");
-        mItemList.add("Check Weather Today");
-        mItemDetails.add("Weather fragment");
-        mItemList.add("Hikes near you >");
-        mItemDetails.add("Hikes fragment");
+        modulesList = new ArrayList<>();
+        modulesListDetails = new ArrayList<>();
+        modulesList.add("Profile");
+        modulesListDetails.add("Profile fragment");
+        modulesList.add("Check BMI");
+        modulesListDetails.add("BMI fragment");
+        modulesList.add("Check Weather Today");
+        modulesListDetails.add("Weather fragment");
+        modulesList.add("Hikes near you >");
+        modulesListDetails.add("Hikes fragment");
+        modulesList.add("Gyms near you >");
+        modulesListDetails.add("Gyms fragment");
     }
 
     //Say how and what to write to parcel
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeStringList(mItemList);
-        out.writeStringList(mItemDetails);
+        out.writeStringList(modulesList);
+        out.writeStringList(modulesListDetails);
     }
 
     //Don't worry about this for now.
@@ -72,15 +74,15 @@ public class CustomListData implements Parcelable {
 
     //Implement a getter and setter for getting whole list
     public List<String> getItemList() {
-        return mItemList;
+        return modulesList;
     }
 
     public void setItemList(List<String> itemList) {
-        mItemList = itemList;
+        modulesList = itemList;
     }
 
     //Implement getter for item details at a position
     public String getItemDetail(int position) {
-        return mItemDetails.get(position);
+        return modulesListDetails.get(position);
     }
 }

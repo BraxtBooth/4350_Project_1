@@ -35,9 +35,7 @@ public class WeatherData {
         public String getDescr() {
             return mDescr;
         }
-        public void setDescr(String descr) {
-            mDescr = descr;
-        }
+        public void setDescr(String descr) { mDescr = descr; }
         public String getIcon() {
             return mIcon;
         }

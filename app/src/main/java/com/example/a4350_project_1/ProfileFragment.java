@@ -2,6 +2,7 @@ package com.example.a4350_project_1;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -134,10 +136,23 @@ public class ProfileFragment extends Fragment {
 
                 Activity activity = getActivity();
                 Toast.makeText(activity, "Information Saved.", Toast.LENGTH_LONG).show();
+
             }
         });
 
+        // Save data from the user to the SavedPreferences
+        Button backHome = (Button) getView().findViewById(R.id.button_backHome);
+        backHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), HeadActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
+    boolean isTablet(){
+        return getResources().getBoolean(R.bool.isTablet);
+    }
 
 }

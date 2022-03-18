@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //No need to check if we're on a tablet. This activity only gets created on phones.
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.profile_activity, mProfileFragment, "frag_profiledetail");
+        fTrans.replace(R.id.profile_activity_layout, mProfileFragment, "frag_profiledetail");
         fTrans.commit();
     }
 

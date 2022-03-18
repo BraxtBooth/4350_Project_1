@@ -86,7 +86,7 @@
             app:layout_constraintTop_toTopOf="@+id/sexSpinner" />
 
         <Button
-            android:id="@+id/button_second"
+            android:id="@+id/button_backHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -171,9 +171,9 @@
             android:text="Save"
             android:textColor="#000000"
             app:backgroundTint="#5CDB5C"
-            app:layout_constraintBottom_toBottomOf="@+id/button_second"
+            app:layout_constraintBottom_toBottomOf="@+id/button_backHome"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button_second" />
+            app:layout_constraintTop_toTopOf="@+id/button_backHome" />
 
         <TextView
             android:id="@+id/textViewName"

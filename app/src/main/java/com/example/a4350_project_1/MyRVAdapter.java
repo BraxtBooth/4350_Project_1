@@ -4,9 +4,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,13 +25,15 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        protected View itemLayout;
-        protected TextView itemTvData;
+        protected View moduleLayout;
+        protected TextView moduleDesc;
+        protected ImageView moduleIcon;
 
         public ViewHolder(View view){
             super(view);
-            itemLayout = view;
-            itemTvData = (TextView) view.findViewById(R.id.tv_data);
+            moduleLayout = view;
+            moduleDesc = (TextView) view.findViewById(R.id.module_data);
+            moduleIcon = (ImageView) view.findViewById(R.id.module_icon);
         }
     }
 
@@ -50,14 +55,22 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        holder.itemTvData.setText(mListItems.get(holder.getAdapterPosition()));
-        holder.itemLayout.setOnClickListener(new View.OnClickListener(){
-                                                 @Override
-                                                 public void onClick(View view) {
-                                                     mDataPasser.passData(holder.getAdapterPosition());
-                                                 }
-                                             }
-        );
+        int icon = 0;
+        if(holder.getAbsoluteAdapterPosition() == 0) icon = R.drawable.profile;
+        else if(holder.getAbsoluteAdapterPosition() == 1) icon = R.drawable.bmi;
+        else if(holder.getAbsoluteAdapterPosition() == 2) icon = R.drawable.weather;
+        else if(holder.getAbsoluteAdapterPosition() == 3) icon = R.drawable.hikes;
+        else if(holder.getAbsoluteAdapterPosition() == 4) icon = R.drawable.gym;
+
+        holder.moduleIcon.setImageResource(icon);
+
+        holder.moduleDesc.setText(mListItems.get(holder.getAbsoluteAdapterPosition()));
+        holder.moduleLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mDataPasser.passData(holder.getAbsoluteAdapterPosition());
+            }
+        });
     }
 
     public void remove(int position){
@@ -67,7 +80,6 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-
         return mListItems.size();
     }
 

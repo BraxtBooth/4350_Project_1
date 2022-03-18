@@ -4,9 +4,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class BMIActivity extends AppCompatActivity {
+public class WeatherActivity extends AppCompatActivity {
 
-    private BMIFragment mItemDetailFragment;
+    private WeatherFragment weatherFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,14 +14,14 @@ public class BMIActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bmiactivity);
 
         //Create the fragment
-        mItemDetailFragment = new BMIFragment();
+        weatherFragment = new WeatherFragment();
 
         //Pass data to the fragment
-        mItemDetailFragment.setArguments(getIntent().getExtras());
+        weatherFragment.setArguments(getIntent().getExtras());
 
         //No need to check if we're on a tablet. This activity only gets created on phones.
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.replace(R.id.bmi_activity_layout, mItemDetailFragment, "frag_bmidetail");
+        fTrans.replace(R.id.bmi_activity_layout, weatherFragment, "weather_fragment_layout");
         fTrans.commit();
     }
 }
