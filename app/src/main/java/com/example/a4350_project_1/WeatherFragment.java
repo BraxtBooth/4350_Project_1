@@ -85,7 +85,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         }
 
         public void execute(WeatherFragment ref, String location) {
-
             executorService.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -154,11 +153,11 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     }
 
     // = = = Helper methods = = =
-    private int kelvinToFahrenheit(double temp){
+    public int kelvinToFahrenheit(double temp){
         return (int)(1.8 * (temp - 273.15) + 32);
     }
 
-    private int roundToInt(double temp){
+    public int roundToInt(double temp){
         return (int)Math.round(temp);
     }
 

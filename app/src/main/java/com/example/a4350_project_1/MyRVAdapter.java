@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import androidx.annotation.NonNull;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.ViewHolder> {
     private DataPasser mDataPasser;
 
     public MyRVAdapter(List<String> inputList) {
-
         mListItems = inputList;
     }
 
@@ -56,19 +54,19 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         int icon = 0;
-        if(holder.getAbsoluteAdapterPosition() == 0) icon = R.drawable.profile;
-        else if(holder.getAbsoluteAdapterPosition() == 1) icon = R.drawable.bmi;
-        else if(holder.getAbsoluteAdapterPosition() == 2) icon = R.drawable.weather;
-        else if(holder.getAbsoluteAdapterPosition() == 3) icon = R.drawable.hikes;
-        else if(holder.getAbsoluteAdapterPosition() == 4) icon = R.drawable.gym;
+        if(holder.getAdapterPosition() == 0) icon = R.drawable.profile;
+        else if(holder.getAdapterPosition() == 1) icon = R.drawable.bmi;
+        else if(holder.getAdapterPosition() == 2) icon = R.drawable.weather;
+        else if(holder.getAdapterPosition() == 3) icon = R.drawable.hikes;
+        else if(holder.getAdapterPosition() == 4) icon = R.drawable.gym;
 
         holder.moduleIcon.setImageResource(icon);
 
-        holder.moduleDesc.setText(mListItems.get(holder.getAbsoluteAdapterPosition()));
+        holder.moduleDesc.setText(mListItems.get(holder.getAdapterPosition()));
         holder.moduleLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                mDataPasser.passData(holder.getAbsoluteAdapterPosition());
+                mDataPasser.passData(holder.getAdapterPosition());
             }
         });
     }

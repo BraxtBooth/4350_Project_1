@@ -2,20 +2,27 @@ package com.example.a4350_project_1;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -73,19 +80,17 @@ public class ProfileActivity extends AppCompatActivity {
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
-//                        Log.println(Log.ERROR, "CAMERA_DATA:", data.getData().toString());
                         Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
-                        profilePicture.setImageBitmap(selectedImage);
+                        saveToInternalStorage(selectedImage);
                     }
                     break;
                 case 1:
                     if (resultCode == RESULT_OK  && data != null) {
                         try {
-                            Log.println(Log.ERROR, "GALLERY_DATA:", data.getData().toString());
                             Uri imageUri = data.getData();
                             InputStream imageStream = getContentResolver().openInputStream(imageUri);
                             Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                            profilePicture.setImageBitmap(selectedImage);
+                            saveToInternalStorage(selectedImage);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
 //                            Toast.makeText(PostImage.this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -101,4 +106,41 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
     }
+
+    private String generateFilename(){
+        return UUID.randomUUID().toString()+".JPG";
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        String generatedFilename = generateFilename();
+        File myPath = new File(directory, generatedFilename);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(myPath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("image", generatedFilename);
+        editor.apply();
+
+        return directory.getAbsolutePath();
+    }
+
+
 }

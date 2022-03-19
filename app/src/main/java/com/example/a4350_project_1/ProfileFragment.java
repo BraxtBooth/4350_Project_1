@@ -112,7 +112,8 @@ public class ProfileFragment extends Fragment {
         uploadProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProfileActivity)getActivity()).selectImage(getContext());
+                if (isTablet()) ((HeadActivity)getActivity()).selectImage(getContext());
+                else ((ProfileActivity)getActivity()).selectImage(getContext());
             }
         });
 

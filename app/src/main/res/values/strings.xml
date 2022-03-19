@@ -16,6 +16,7 @@
     <string name="Calories_Label">Calories to hit week goal:</string>
     <string name="hikesButtonsText">Hikes</string>
     <string name="Calories_Label_Goal">Calories to hit goal:</string>
+    <string name="Image_Upload_Button">Upload/Change Profile Picture</string>
 
 
     <!--Labels for the Weather Fragment-->

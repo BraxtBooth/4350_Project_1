@@ -4,7 +4,10 @@ import android.content.Context;
 
 import androidx.fragment.app.Fragment;
 
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -19,6 +22,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -79,7 +85,7 @@ public class MasterListFragment extends Fragment {
         if(imageUri == ""){
             profileImg.setImageResource(R.drawable.user_icon);
         }else{
-            profileImg.setImageURI(Uri.parse(imageUri));
+            loadImageFromStorage(imageUri);
         }
 
 
@@ -152,6 +158,24 @@ public class MasterListFragment extends Fragment {
 
 
         // OLD CODE = = == = = == = = = = == = = = = == = = = ==  = == =  =
+
+    }
+
+    private void loadImageFromStorage(String imgName)
+    {
+        ContextWrapper cw = new ContextWrapper(getContext());
+        File directoryPath = cw.getDir("imageDir", Context.MODE_PRIVATE);
+
+        try {
+            File f = new File(directoryPath, imgName);
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            ImageView img = getView().findViewById(R.id.ivProfileImage);
+            img.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 }
