@@ -9,34 +9,46 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.json.JSONException;
 
-import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class WeatherRepository {
-    private static WeatherRepository instance;
-    private final MutableLiveData<WeatherData> jsonData =
-            new MutableLiveData<WeatherData>();
+public class Repository {
+    private static Repository instance;
+    private final MutableLiveData<WeatherData> jsonData = new MutableLiveData<WeatherData>();
     private String mLocation;
+    private String mJsonString;
+    private WeatherDao mWeatherDao;
+    // create userDao var
 
-    private WeatherRepository(Application application){
+    private Repository(Application application){
+        Database db = Database.getDatabase(application);
+        mWeatherDao = db.weatherDao();
+        //instantiate userDAO
         if(mLocation!=null)
             loadData();
     }
 
-    public static synchronized WeatherRepository getInstance(Application application){
-        if(instance==null){
-            instance = new WeatherRepository(application);
+    public static synchronized Repository getInstance(Application application){
+        if(instance == null){
+            instance = new Repository(application);
         }
         return instance;
     }
 
-
     public void setLocation(String location){
         mLocation = location;
         loadData();
+        insertWeatherInfo();
+    }
+
+    private void insertWeatherInfo(){
+        if(mLocation!=null && mJsonString!=null) {
+            WeatherTable weatherTable = new WeatherTableBuilder().setLocation(mLocation).setWeatherJson(mJsonString).createWeatherTable();
+            Database.databaseExecutor.execute(() -> {
+                mWeatherDao.insert(weatherTable);
+            });
+        }
     }
 
     public MutableLiveData<WeatherData> getData() {
@@ -46,6 +58,7 @@ public class WeatherRepository {
     private void loadData(){
         new FetchWeatherTask().execute(mLocation);
     }
+
     private class FetchWeatherTask{
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
@@ -60,6 +73,7 @@ public class WeatherRepository {
                     try{
                         jsonWeatherData = NetworkUtils.getDataFromURL(weatherDataURL);
                         if(jsonWeatherData!=null)
+                            mJsonString = jsonWeatherData;
                             postToMainThread(jsonWeatherData);
                     }catch(Exception e){
                         e.printStackTrace();
