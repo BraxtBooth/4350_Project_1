@@ -7,13 +7,14 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
 public class UserTable {
-    @PrimaryKey (autoGenerate = true)
-    @NonNull
-    @ColumnInfo(name = "id")
-    private int userID;
+//    @PrimaryKey (autoGenerate = true)
+//    @NonNull
+//    @ColumnInfo(name = "id")
+//    private int userID;
 
     @NonNull
     @ColumnInfo(name = "name")
+    @PrimaryKey
     private String name;
 
     @NonNull
@@ -37,24 +38,24 @@ public class UserTable {
     private int weight;
 
     @NonNull
-    @ColumnInfo(name = "sex")
-    private String sex;
+    @ColumnInfo(name = "sex") // 0 for male, 1 for female, 2 for ...
+    private int sex;
 
     @NonNull
-    @ColumnInfo(name = "goal")
-    private String goal;
+    @ColumnInfo(name = "goal") //
+    private int goal;
 
     @NonNull
-    @ColumnInfo(name = "activity")
-    private String activity;
+    @ColumnInfo(name = "activity") // 0 for sedentary, 1 for active
+    private int activity;
 
     @NonNull
-    @ColumnInfo(name = "goalChange")
+    @ColumnInfo(name = "goalChange") //
     private int goalChange;
 
     public UserTable(@NonNull String name, @NonNull int age, @NonNull String location, @NonNull int feet,
-                     @NonNull int inches, @NonNull int weight, @NonNull String sex, @NonNull String goal,
-                     @NonNull String activity, @NonNull int goalChange){
+                     @NonNull int inches, @NonNull int weight, @NonNull int sex, @NonNull int goal,
+                     @NonNull int activity, @NonNull int goalChange){
         setName(name);
         setAge(age);
         setLocation(location);
@@ -78,11 +79,11 @@ public class UserTable {
     public void setFeet(int feet){ this.feet = feet; }
     public void setInches(int inches){ this.inches = inches; }
     public void setWeight(int weight){ this.weight = weight; }
-    public void setSex(String sex){
+    public void setSex(int sex){
         this.sex = sex;
     }
-    public void setGoal(String goal){ this.goal = goal; }
-    public void setActivity(String activity){
+    public void setGoal(int goal){ this.goal = goal; }
+    public void setActivity(int activity){
         this.activity = activity;
     }
     public void setGoalChange(int goalChange){ this.goalChange = goalChange; }
@@ -98,13 +99,13 @@ public class UserTable {
     public int getFeet(){ return feet; }
     public int getInches(){ return inches; }
     public int getWeight(){ return weight; }
-    public String getSex(){
+    public int getSex(){
         return sex;
     }
-    public String getGoal(){
+    public int getGoal(){
         return goal;
     }
-    public String getActivity(){
+    public int getActivity(){
         return activity;
     }
     public int getGoalChange(){ return goalChange; }

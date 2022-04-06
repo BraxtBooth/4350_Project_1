@@ -14,10 +14,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@androidx.room.Database(entities = {WeatherTable.class /*, UserTable.class*/}, version = 1, exportSchema = false)
+@androidx.room.Database(entities = {WeatherTable.class , UserTable.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
     private static volatile Database mInstance;
     public abstract WeatherDao weatherDao();
+    public abstract UserDao userDao();
     static final ExecutorService databaseExecutor =
             Executors.newFixedThreadPool(4);
 
@@ -33,10 +34,16 @@ public abstract class Database extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             databaseExecutor.execute(()->{
-                WeatherDao dao = mInstance.weatherDao();
-                dao.deleteAll();
+                WeatherDao weatherDao = mInstance.weatherDao();
+                weatherDao.deleteAll();
                 WeatherTable weatherTable = new WeatherTableBuilder().setLocation("dummy_loc").setWeatherJson("dummy_data").createWeatherTable();
-                dao.insert(weatherTable);
+                weatherDao.insert(weatherTable);
+
+                UserDao userDao = mInstance.userDao();
+                userDao.deleteAll();
+                UserTable userTable = new UserTableBuilder().setName("John").setAge(25).setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0)
+                        .setGoal(0).setActivity(0).setGoalChange(0).createUserTable();
+                userDao.insert(userTable);
             });
         }
     };
@@ -50,11 +57,13 @@ public abstract class Database extends RoomDatabase {
     };
     private static class PopulateDbTask{
         private final WeatherDao mDao;
+        private final UserDao userDao;
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
         PopulateDbTask(Database db){
             mDao = db.weatherDao();
+            userDao = db.userDao();
         }
 
         public void execute(){
@@ -64,6 +73,11 @@ public abstract class Database extends RoomDatabase {
                     mDao.deleteAll();
                     WeatherTable weatherTable = new WeatherTableBuilder().setLocation("dummy_loc").setWeatherJson("dummy_data").createWeatherTable();
                     mDao.insert(weatherTable);
+
+                    userDao.deleteAll();
+                    UserTable userTable = new UserTableBuilder().setName("John").setAge(25).setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0)
+                            .setGoal(0).setActivity(0).setGoalChange(0).createUserTable();
+                    userDao.insert(userTable);
                 }
             });
         }

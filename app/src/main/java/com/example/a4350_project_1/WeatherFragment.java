@@ -4,28 +4,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.os.HandlerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
-
-import java.lang.ref.WeakReference;
-import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class WeatherFragment extends Fragment implements View.OnClickListener {
 
@@ -67,7 +54,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         mWeatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
 
         //Set the observer
-        mWeatherViewModel.getData().observe(getViewLifecycleOwner(), nameObserver);
+        mWeatherViewModel.getWeatherData().observe(getViewLifecycleOwner(), nameObserver);
 
         loadWeatherDataToScreen(sp.getString("location", ""));
 

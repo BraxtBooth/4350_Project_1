@@ -9,9 +9,9 @@ public class UserTableBuilder {
     private int feet;
     private int inches;
     private int weight;
-    private String sex;
-    private String goal;
-    private String activity;
+    private int sex;
+    private int goal;
+    private int activity;
     private int goalChange;
 
     public UserTableBuilder setName(String name) {
@@ -44,17 +44,17 @@ public class UserTableBuilder {
         return this;
     }
 
-    public UserTableBuilder setSex(String sex) {
+    public UserTableBuilder setSex(int sex) {
         this.sex = sex;
         return this;
     }
 
-    public UserTableBuilder setGoal(String goal) {
+    public UserTableBuilder setGoal(int goal) {
         this.goal = goal;
         return this;
     }
 
-    public UserTableBuilder setActivity(String activity) {
+    public UserTableBuilder setActivity(int activity) {
         this.activity = activity;
         return this;
     }

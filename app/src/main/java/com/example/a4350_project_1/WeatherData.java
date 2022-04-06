@@ -9,14 +9,11 @@ public class WeatherData {
     private Snow mSnow = new Snow();
     private Clouds mClouds = new Clouds();
 
-
-    public  class CurrentCondition {
+    public class CurrentCondition {
         private long mWeatherId;
         private String mCondition;
         private String mDescr;
         private String mIcon;
-
-
         private double mPressure;
         private double mHumidity;
 
@@ -79,7 +76,6 @@ public class WeatherData {
         public void setMaxTemp(double maxTemp) {
             mMaxTemp = maxTemp;
         }
-
     }
 
     public class Wind {
@@ -135,15 +131,12 @@ public class WeatherData {
 
     public class Clouds {
         private long mPerc;
-
         public long getPerc() {
             return mPerc;
         }
-
         public void setPerc(long perc) {
             mPerc = perc;
         }
-
     }
 
     //Setters and Getters

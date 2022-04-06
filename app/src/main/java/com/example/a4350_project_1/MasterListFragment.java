@@ -78,6 +78,7 @@ public class MasterListFragment extends Fragment {
 
         // OLD CODE = = == = = == = = = = == = = = = == = = = ==  = == =  =
 
+
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
 
         String imageUri = sp.getString("image", "");

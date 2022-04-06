@@ -13,13 +13,13 @@ public class WeatherViewModel extends AndroidViewModel {
     public WeatherViewModel(Application application){
         super(application);
         mRepository = Repository.getInstance(application);
-        jsonData = mRepository.getData();
+        jsonData = mRepository.getWeatherData();
     }
     public void setLocation(String location){
-        mRepository.setLocation(location);
+        mRepository.setWeatherLocation(location);
     }
 
-    public LiveData<WeatherData> getData(){
+    public LiveData<WeatherData> getWeatherData(){
         return jsonData;
     }
 
