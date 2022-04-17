@@ -332,7 +332,7 @@
 
         <TextView
             android:id="@+id/textViewEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Email:"
             android:textColor="#000000"
@@ -340,7 +340,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/editTextEmail"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textViewName"
             app:layout_constraintTop_toTopOf="@+id/editTextEmail"
             app:layout_constraintVertical_bias="0.428" />
 
