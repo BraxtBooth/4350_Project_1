@@ -13,7 +13,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 @androidx.room.Database(entities = {WeatherTable.class , UserTable.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
     private static volatile Database mInstance;
@@ -25,7 +24,7 @@ public abstract class Database extends RoomDatabase {
     static synchronized Database getDatabase(final Context context){
         if(mInstance==null) {
             mInstance = Room.databaseBuilder(context.getApplicationContext(),
-                    Database.class, "database.db").addCallback(sRoomDatabaseCallback).build();
+                    Database.class, "test.db").addCallback(sRoomDatabaseCallback).build();
         }
         return mInstance;
     }
@@ -41,8 +40,9 @@ public abstract class Database extends RoomDatabase {
 
                 UserDao userDao = mInstance.userDao();
                 userDao.deleteAll();
-                UserTable userTable = new UserTableBuilder().setName("John").setAge(25).setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0)
-                        .setGoal(0).setActivity(0).setGoalChange(0).createUserTable();
+                UserTable userTable = new UserTableBuilder().setEmail("john@email.com").setSelected(true).setName("John").setAge(25).
+                        setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0).setGoal(0).setActivity(0).
+                        setGoalChange(0).setImageURI("f00fcf37-add8-4b04-8157-1a20274eade7.JPG").createUserTable();
                 userDao.insert(userTable);
             });
         }
@@ -75,8 +75,9 @@ public abstract class Database extends RoomDatabase {
                     mDao.insert(weatherTable);
 
                     userDao.deleteAll();
-                    UserTable userTable = new UserTableBuilder().setName("John").setAge(25).setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0)
-                            .setGoal(0).setActivity(0).setGoalChange(0).createUserTable();
+                    UserTable userTable = new UserTableBuilder().setEmail("john@email.com").setSelected(true).setName("John").setAge(25).
+                            setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0).setGoal(0).setActivity(0).
+                            setGoalChange(0).createUserTable();
                     userDao.insert(userTable);
                 }
             });

@@ -27,10 +27,8 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     private TextView tvRainVal;
     private WeatherData mWeatherData;
     private WeatherViewModel mWeatherViewModel;
-
-    public WeatherFragment() {
-
-    }
+    private UserViewModel userViewModel;
+    String location;
 
     @Nullable
     @Override
@@ -39,24 +37,23 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
         //Inflate the detail view
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
-
         //Get the text view
 //        mTvItemDetail = (TextView) view.findViewById(R.id.tvWeatherTitle);
-
         //Get the incoming detail text
         String detailString = getArguments().getString("item_detail");
 
-        if (detailString != null) { }
-
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
         //Create the view model
         mWeatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
-
         //Set the observer
         mWeatherViewModel.getWeatherData().observe(getViewLifecycleOwner(), nameObserver);
+//        loadWeatherDataToScreen(sp.getString("location", ""));
 
-        loadWeatherDataToScreen(sp.getString("location", ""));
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.getUserData().observe(getViewLifecycleOwner(), userObserver);
+
+        location = userViewModel.getUserData().getValue().getLocation();
+        loadWeatherDataToScreen(location);
 
         return view;
     }
@@ -64,6 +61,20 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        tvWeatherSubtitle = (TextView) getView().findViewById(R.id.tvWeatherSubtitle);
+        tvTempVal = (TextView) getView().findViewById(R.id.tvTempValue);
+        tvMaxTempVal = (TextView) getView().findViewById(R.id.tvMaxTempValue);
+        tvMinTempVal = (TextView) getView().findViewById(R.id.tvMinTempValue);
+        tvHumidityVal = (TextView) getView().findViewById(R.id.tvHumidityValue);
+        tvPressureVal = (TextView) getView().findViewById(R.id.tvPressureValue);
+        tvCloudsVal = (TextView) getView().findViewById(R.id.tvCloudValue);
+        tvSnowVal = (TextView) getView().findViewById(R.id.tvSnowValue);
+        tvRainVal = (TextView) getView().findViewById(R.id.tvRainValue);
     }
 
     // = = = Helper methods = = =
@@ -85,17 +96,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onChanged(@Nullable final WeatherData weatherData) {
             // Update the UI if this data variable changes
-            if(weatherData!=null) {
-                tvWeatherSubtitle = (TextView) getView().findViewById(R.id.tvWeatherSubtitle);
-                tvTempVal = (TextView) getView().findViewById(R.id.tvTempValue);
-                tvMaxTempVal = (TextView) getView().findViewById(R.id.tvMaxTempValue);
-                tvMinTempVal = (TextView) getView().findViewById(R.id.tvMinTempValue);
-                tvHumidityVal = (TextView) getView().findViewById(R.id.tvHumidityValue);
-                tvPressureVal = (TextView) getView().findViewById(R.id.tvPressureValue);
-                tvCloudsVal = (TextView) getView().findViewById(R.id.tvCloudValue);
-                tvSnowVal = (TextView) getView().findViewById(R.id.tvSnowValue);
-                tvRainVal = (TextView) getView().findViewById(R.id.tvRainValue);
-
+            if(weatherData != null) {
                 int temp = roundToInt(kelvinToFahrenheit(weatherData.getTemperature().getTemp()));
                 int maxTemp = roundToInt(kelvinToFahrenheit(weatherData.getTemperature().getMaxTemp()));
                 int minTemp = roundToInt(kelvinToFahrenheit(weatherData.getTemperature().getMinTemp()));
@@ -105,8 +106,9 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 int snowAmount = roundToInt(weatherData.getSnow().getAmount());
                 int rainAmount = roundToInt(weatherData.getRain().getAmount());
 
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-                String location = sp.getString("location", "Austin,US");
+//                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+//                String location = sp.getString("location", "Austin,US");
+//                tvWeatherSubtitle.setText("Weather information around " + location + ":");
                 tvWeatherSubtitle.setText("Weather information around " + location + ":");
                 tvTempVal.setText(temp + " F");
                 tvMaxTempVal.setText(maxTemp + " F");
@@ -117,93 +119,32 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 tvSnowVal.setText(snowAmount + " mm");
                 tvRainVal.setText(rainAmount + " mm");
 
-//              localRef.mTvTemp.setText("" + Math.round(localRef.mWeatherData.getTemperature().getTemp() - 273.15) + " C");
-//              localRef.mTvHum.setText("" + localRef.mWeatherData.getCurrentCondition().getHumidity() + "%");
-//              localRef.mTvPress.setText("" + localRef.mWeatherData.getCurrentCondition().getPressure() + " hPa");
             }
         }
     };
 
-    //    private void loadWeatherData(String location){
-//        mFetchWeatherTask.execute(this,location);
-//    }
-//
-//
-//    private class FetchWeatherTask {
-//        WeakReference<WeatherFragment> weatherFragmentWeakReference;
-//        private ExecutorService executorService = Executors.newSingleThreadExecutor();
-//        private Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
-//
-//        public void setWeakReference(WeatherFragment ref) {
-//            weatherFragmentWeakReference = new WeakReference<WeatherFragment>(ref);
-//        }
-//
-//        public void execute(WeatherFragment ref, String location) {
-//            executorService.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    String jsonWeatherData;
-//                    URL weatherDataURL = NetworkUtils.buildURLFromString(location);
-//                    jsonWeatherData = null;
-//                    try {
-//                        jsonWeatherData = NetworkUtils.getDataFromURL(weatherDataURL);
-//                        postToMainThread(jsonWeatherData, location);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }
-//
-//        private void postToMainThread(String jsonWeatherData, String location){
-//            WeatherFragment localRef = weatherFragmentWeakReference.get();
-//            mainThreadHandler.post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (jsonWeatherData != null) {
-//                        try {
-//                            localRef.mWeatherData = JSONWeatherUtils.getWeatherData(jsonWeatherData);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        if (localRef.mWeatherData != null) {
-//                            tvWeatherSubtitle = (TextView) getView().findViewById(R.id.tvWeatherSubtitle);
-//                            tvTempVal = (TextView) getView().findViewById(R.id.tvTempValue);
-//                            tvMaxTempVal = (TextView) getView().findViewById(R.id.tvMaxTempValue);
-//                            tvMinTempVal = (TextView) getView().findViewById(R.id.tvMinTempValue);
-//                            tvHumidityVal = (TextView) getView().findViewById(R.id.tvHumidityValue);
-//                            tvPressureVal = (TextView) getView().findViewById(R.id.tvPressureValue);
-//                            tvCloudsVal = (TextView) getView().findViewById(R.id.tvCloudValue);
-//                            tvSnowVal = (TextView) getView().findViewById(R.id.tvSnowValue);
-//                            tvRainVal = (TextView) getView().findViewById(R.id.tvRainValue);
-//
-//                            int temp = roundToInt(kelvinToFahrenheit(localRef.mWeatherData.getTemperature().getTemp()));
-//                            int maxTemp = roundToInt(kelvinToFahrenheit(localRef.mWeatherData.getTemperature().getMaxTemp()));
-//                            int minTemp = roundToInt(kelvinToFahrenheit(localRef.mWeatherData.getTemperature().getMinTemp()));
-//                            int humidity = roundToInt(localRef.mWeatherData.getCurrentCondition().getHumidity());
-//                            int pressure = roundToInt(localRef.mWeatherData.getCurrentCondition().getPressure());
-//                            int cloudPercentage = roundToInt(localRef.mWeatherData.getClouds().getPerc());
-//                            int snowAmount = roundToInt(localRef.mWeatherData.getSnow().getAmount());
-//                            int rainAmount = roundToInt(localRef.mWeatherData.getRain().getAmount());
-//
-//                            tvWeatherSubtitle.setText("Weather information around " + location + ":");
-//                            tvTempVal.setText(temp + " F");
-//                            tvMaxTempVal.setText(maxTemp + " F");
-//                            tvMinTempVal.setText(minTemp + " F");
-//                            tvHumidityVal.setText(humidity + "%");
-//                            tvPressureVal.setText(pressure + " hPa");
-//                            tvCloudsVal.setText(cloudPercentage + "%");
-//                            tvSnowVal.setText(snowAmount + " mm");
-//                            tvRainVal.setText(rainAmount + " mm");
-//
-////                            localRef.mTvTemp.setText("" + Math.round(localRef.mWeatherData.getTemperature().getTemp() - 273.15) + " C");
-////                            localRef.mTvHum.setText("" + localRef.mWeatherData.getCurrentCondition().getHumidity() + "%");
-////                            localRef.mTvPress.setText("" + localRef.mWeatherData.getCurrentCondition().getPressure() + " hPa");
-//                        }
-//                    }
-//                }
-//            });
-//        }
-//    }
+    final Observer<UserTable> userObserver = new Observer<UserTable>() {
+        @Override
+        public void onChanged(UserTable userTable) {
+//            emailText.setText(userTable.getEmail());
+//            nameText.setText(userTable.getName());
+//            ageText.setText(String.valueOf(userTable.getAge()));
+//            locationText.setText(userTable.getLocation());
+//            heightFeet.setValue(userTable.getFeet());
+//            heightInches.setValue(userTable.getInches());
+//            weightText.setText(String.valueOf(userTable.getWeight()));
+//            sexText.setSelection(userTable.getSex());
+//            goalsText.setSelection(userTable.getGoal());
+//            activityText.setSelection(userTable.getActivity());
+//            lbsChange.setValue(userTable.getGoalChange());
+
+
+//            location = userTable.getLocation();
+//            loadWeatherDataToScreen(location);
+//            tvWeatherSubtitle.setText("Weather information around " + location + ":");
+
+        }
+    };
+
 
 }

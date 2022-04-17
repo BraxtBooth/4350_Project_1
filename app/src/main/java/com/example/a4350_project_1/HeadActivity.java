@@ -1,6 +1,7 @@
 package com.example.a4350_project_1;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -36,6 +38,8 @@ public class HeadActivity extends AppCompatActivity
 
     private static final CustomListData mCustomListData  = new CustomListData();
     private MasterListFragment mMasterListFragment;
+    WeatherViewModel weatherViewModel;
+    UserViewModel userViewModel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -52,6 +56,10 @@ public class HeadActivity extends AppCompatActivity
 
         //Pass data to the fragment
         mMasterListFragment.setArguments(fragmentBundle);
+
+        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
+        userViewModel = new ViewModelProvider( this).get(UserViewModel.class);
+        userViewModel.setCurrentUser();
 
         //If we're on a tablet, the master fragment appears on the left pane. If we're on a phone,
         //it takes over the whole screen
@@ -80,7 +88,6 @@ public class HeadActivity extends AppCompatActivity
         if(isTablet()) {
             if(position == 0){
                 Fragment profileFragment = new ProfileFragment();
-//                profileFragment.setArguments(detailBundle);
                 FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
                 fTrans.replace(R.id.itemdetail_container_tablet, profileFragment, "profile-fragment");
                 fTrans.commit();
@@ -112,16 +119,6 @@ public class HeadActivity extends AppCompatActivity
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, searchUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
-            }
-            else{
-                //Create a new detail fragment
-                ItemDetailFragment itemDetailFragment = new ItemDetailFragment();
-                //Pass data to the fragment
-                itemDetailFragment.setArguments(detailBundle);
-                //Replace the detail fragment container
-                FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
-                fTrans.replace(R.id.itemdetail_container_tablet, itemDetailFragment, "frag_itemdetail");
-                fTrans.commit();
             }
         }
 
@@ -155,11 +152,7 @@ public class HeadActivity extends AppCompatActivity
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
             }
-            else{
-                Intent sendIntent = new Intent(this, ItemDetailActivity.class);
-                sendIntent.putExtras(detailBundle);
-                startActivity(sendIntent);
-            }
+
         }
     }
 
@@ -258,14 +251,14 @@ public class HeadActivity extends AppCompatActivity
             }
         }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("image", generatedFilename);
-        editor.apply();
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("image", generatedFilename);
+//        editor.apply();
+
+        userViewModel.updateUserImageURI(generatedFilename);
 
         return directory.getAbsolutePath();
     }
-
-
     // = = = = = = = END OF CODE FOR IMAGE UPLOAD
 }

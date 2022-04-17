@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.a4350_project_1"
-        minSdk 19
+        minSdk 27
         targetSdk 32
         versionCode 1
         versionName "1.0"

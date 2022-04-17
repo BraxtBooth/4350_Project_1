@@ -7,14 +7,17 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
 public class UserTable {
-//    @PrimaryKey (autoGenerate = true)
-//    @NonNull
-//    @ColumnInfo(name = "id")
-//    private int userID;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "email")
+    private String email;
+
+    @NonNull
+    @ColumnInfo(name = "selected")
+    private boolean selected;
 
     @NonNull
     @ColumnInfo(name = "name")
-    @PrimaryKey
     private String name;
 
     @NonNull
@@ -53,9 +56,15 @@ public class UserTable {
     @ColumnInfo(name = "goalChange") //
     private int goalChange;
 
-    public UserTable(@NonNull String name, @NonNull int age, @NonNull String location, @NonNull int feet,
+    @NonNull
+    @ColumnInfo(name = "imageURI") //
+    private String imageURI;
+
+    public UserTable(@NonNull String email, @NonNull boolean selected, @NonNull String name, @NonNull int age, @NonNull String location, @NonNull int feet,
                      @NonNull int inches, @NonNull int weight, @NonNull int sex, @NonNull int goal,
-                     @NonNull int activity, @NonNull int goalChange){
+                     @NonNull int activity, @NonNull int goalChange, @NonNull String imageURI){
+        setEmail(email);
+        setSelected(selected);
         setName(name);
         setAge(age);
         setLocation(location);
@@ -66,9 +75,15 @@ public class UserTable {
         setGoal(goal);
         setActivity(activity);
         setGoalChange(goalChange);
-
+        setImageURI(imageURI);
     }
 
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setSelected(boolean selected){
+        this.selected = selected;
+    }
     public void setName(String name){
         this.name = name;
     }
@@ -87,8 +102,14 @@ public class UserTable {
         this.activity = activity;
     }
     public void setGoalChange(int goalChange){ this.goalChange = goalChange; }
+    public void setImageURI(String imageURI) { this.imageURI = imageURI; }
 
-
+    public String getEmail(){
+        return email;
+    }
+    public boolean getSelected(){
+        return selected;
+    }
     public String getName(){
         return name;
     }
@@ -109,5 +130,7 @@ public class UserTable {
         return activity;
     }
     public int getGoalChange(){ return goalChange; }
-
+    public String getImageURI(){
+        return imageURI;
+    }
 }

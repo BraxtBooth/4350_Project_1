@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import org.json.JSONException;
 
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,7 +22,8 @@ public class Repository {
     private String mJsonWeatherString;
     private WeatherDao mWeatherDao;
 
-    private final MutableLiveData<UserTable> userData = new MutableLiveData<UserTable>();
+    private LiveData<UserTable> currentUser = new MutableLiveData<UserTable>();
+    private LiveData<List<UserTable>> users = new MutableLiveData<List<UserTable>>();
     private String userName;
 //    private String userString;
     private UserDao userDao;
@@ -55,8 +57,25 @@ public class Repository {
         insertUserInfo();
     }
 
+    public void setCurrentUser(){
+        loadUserData();
+    }
+
+    public void updateUser(String email, String name, int age, String location, int feet, int inches,
+                           int weight, int sex, int goal, int activity, int goalChange){
+        Database.databaseExecutor.execute(() -> {
+            userDao.updateUser(email, name, age, location, feet, inches, weight, sex, goal, activity, goalChange);
+        });
+    }
+
+    public void updateUserStringURI(String imageURI){
+        Database.databaseExecutor.execute(() -> {
+            userDao.updateUserImageURI(imageURI);
+        });
+    }
+
     private void insertWeatherInfo(){
-        if(mWeatherLocation !=null && mJsonWeatherString !=null) {
+        if(mWeatherLocation != null && mJsonWeatherString != null) {
             WeatherTable weatherTable = new WeatherTableBuilder().setLocation(mWeatherLocation).setWeatherJson(mJsonWeatherString).createWeatherTable();
             Database.databaseExecutor.execute(() -> {
                 mWeatherDao.insert(weatherTable);
@@ -65,20 +84,27 @@ public class Repository {
     }
 
     private void insertUserInfo(){
-//        if(userName !=null && userString !=null) {
-//            UserTable userTable = new UserTableBuilder().setLocation(mWeatherLocation).setWeatherJson(mJsonWeatherString).createWeatherTable();
+        if(userName != null) {
+//            UserTable userTable = new UserTableBuilder().setName(userName).setLocation(currentUser.getValue().getLocation())
+//                    .setAge(currentUser.getValue().getAge()).setFeet(currentUser.getValue().getFeet()).setInches(currentUser.getValue().getInches()).
+//                            setWeight(currentUser.getValue().getWeight()).setSex(currentUser.getValue().getSex()).setGoal(currentUser.getValue().getGoal()).
+//                            setActivity(currentUser.getValue().getActivity()).setGoalChange(currentUser.getValue().getGoalChange()).createUserTable();
+//            UserTable userTable = new UserTableBuilder().setName(userName).setLocation(users.getValue().get(0).getLocation())
+//                    .setAge(users.getValue().get(0).getAge()).setFeet(users.getValue().get(0).getFeet()).setInches(users.getValue().get(0).getInches()).
+//                            setWeight(users.getValue().get(0).getWeight()).setSex(users.getValue().get(0).getSex()).setGoal(users.getValue().get(0).getGoal()).
+//                            setActivity(users.getValue().get(0).getActivity()).setGoalChange(users.getValue().get(0).getGoalChange()).createUserTable();
 //            Database.databaseExecutor.execute(() -> {
-//                mWeatherDao.insert(userTable);
+//                userDao.insert(userTable);
 //            });
-//        }
+        }
     }
 
     public MutableLiveData<WeatherData> getWeatherData() {
         return jsonWeatherData;
     }
 
-    public MutableLiveData<UserTable> getUserData() {
-        return userData;
+    public LiveData<UserTable> getUserData() {
+        return currentUser;
     }
 
     private void loadWeatherData(){
@@ -86,7 +112,9 @@ public class Repository {
     }
 
     private void loadUserData(){
-        LiveData<UserTable> userData = userDao.getUser(userName);
+        Database.databaseExecutor.execute(() -> {
+            currentUser = userDao.getUser();
+        });
     }
 
     private class FetchWeatherTask{

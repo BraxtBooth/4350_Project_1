@@ -12,10 +12,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +35,19 @@ public class MasterListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-
-
-    public MasterListFragment() {
-
-    }
+    private UserViewModel userViewModel;
+    TextView BMRText;
+    TextView CaloriesText;
+    TextView CaloriesWarning;
+    float feet;
+    float inches;
+    float weight;
+    float age;
+    int sex;
+    String[] sexEntries ;
+    int activityIndex;
+    int goalIndex;
+    Integer lbsChange;
 
     @Override
     public void onAttach(Context context) {
@@ -47,8 +58,6 @@ public class MasterListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_master_list, container, false);
-
-
 
         //Get the recycler view
         mRecyclerView = (RecyclerView) fragmentView.findViewById(R.id.rv_Master);
@@ -64,6 +73,9 @@ public class MasterListFragment extends Fragment {
         CustomListData customListData = getArguments().getParcelable("item_list");
         List<String> inputList = customListData.getItemList();
 
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userViewModel.getUserData().observe(getViewLifecycleOwner(), userObserver);
+
         //Set the adapter
         mAdapter = new MyRVAdapter(inputList);
         mRecyclerView.setAdapter(mAdapter);
@@ -73,92 +85,148 @@ public class MasterListFragment extends Fragment {
         return fragmentView;
     }
 
+    final Observer<UserTable> userObserver = new Observer<UserTable>() {
+        @Override
+        public void onChanged(UserTable userTable) {
+            feet = userTable.getFeet();
+            inches = userTable.getInches();
+            weight = userTable.getWeight();
+            age = userTable.getAge();
+            sex = userTable.getSex();
+            sexEntries = getResources().getStringArray(R.array.Sex_Array);
+            activityIndex = userTable.getActivity();
+            goalIndex = userTable.getGoal();
+            lbsChange = userTable.getGoalChange();
+            String BMRTextOutput = "Please enter height, weight, age, and sex on profile page";
+            String CaloriesTextOutput = "";
+            float bmr = 0;
+            float calorieFactor = (float) (activityIndex==0 ? 1.55 : 1.2);
+            float calorieIntake = 0;
+            if(feet !=0 && weight!=0 && age != 0){
+                DecimalFormat df = new DecimalFormat();
+                df.setMaximumFractionDigits(2);
+                float totalHeight = feet*12 + inches;
+                if(sexEntries[sex].equals("Male")){
+                    bmr = (float) (66.47+(6.24*weight)+(12.7*totalHeight)-(6.755*age));
+                    BMRTextOutput = String.valueOf(df.format(bmr));
+                }
+                else if(sexEntries[sex].equals("Female")){
+                    bmr = (float) (655.1 + (4.35*weight) + (4.7*totalHeight) - (4.7*age));
+                    BMRTextOutput = String.valueOf(df.format(bmr));
+                }
+                else{
+                    BMRTextOutput = "Cannot calculate BMR based on Sex";
+                }
+
+                if(bmr != 0) {
+                    if (goalIndex == 0) {
+                        //Gain Weight
+                        calorieIntake = bmr*calorieFactor+(lbsChange==1 ? 500: 1000);
+                        CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+
+                    } else if (goalIndex == 1) {
+                        //Lose Weight
+                        calorieIntake = bmr*calorieFactor-(lbsChange==1 ? 500: 1000);
+                        CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+                    } else if (goalIndex == 2) {
+                        //Maintain Weight
+                        calorieIntake = bmr*calorieFactor;
+                        CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+                    }
+                }
+            }
+            BMRText.setText(BMRTextOutput);
+            CaloriesText.setText(CaloriesTextOutput);
+
+            if((calorieIntake < 1200 && sexEntries[sex].equals("Male")) || (calorieIntake<1000 && sexEntries[sex].equals("Females")))
+                CaloriesWarning.setVisibility(View.VISIBLE);
+            else
+                CaloriesWarning.setVisibility(View.GONE);
+
+            ImageView profileImg = (ImageView) getView().findViewById(R.id.ivProfileImage);
+            if(userTable.getImageURI() == ""){
+                profileImg.setImageResource(R.drawable.user_icon);
+            }else{
+                loadImageFromStorage(userTable.getImageURI());
+            }
+        }
+    };
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // OLD CODE = = == = = == = = = = == = = = = == = = = ==  = == =  =
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+//        String imageUri = sp.getString("image", "");
+//        Log.println(Log.ASSERT, "===============myTAG:", imageUri);
 
+//        ImageView profileImg = (ImageView) getView().findViewById(R.id.ivProfileImage);
+//        if(imageUri == ""){
+//            profileImg.setImageResource(R.drawable.user_icon);
+//        }else{
+//            loadImageFromStorage(imageUri);
+//        }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+        BMRText = (TextView) getView().findViewById(R.id.tvMBRValue);
+        CaloriesText = (TextView) getView().findViewById(R.id.tvCaloriesValue);
+        CaloriesWarning = (TextView) getView().findViewById(R.id.tvCalorieWarning);
 
-        String imageUri = sp.getString("image", "");
-        ImageView profileImg = (ImageView) getView().findViewById(R.id.ivProfileImage);
-        if(imageUri == ""){
-            profileImg.setImageResource(R.drawable.user_icon);
-        }else{
-            loadImageFromStorage(imageUri);
-        }
-
-
-//        SharedPreferences.Editor preferencesEditor = sp.edit();
-//        preferencesEditor.putInt("feet", 6);
-//        preferencesEditor.putInt("weight", 24);
-//        preferencesEditor.putInt("age", 42);
-//        preferencesEditor.apply();
-
-        TextView BMRText = (TextView) getView().findViewById(R.id.tvMBRValue);
-        TextView CaloriesText = (TextView) getView().findViewById(R.id.tvCaloriesValue);
-        TextView CaloriesWarning = (TextView) getView().findViewById(R.id.tvCalorieWarning);
-        String BMRTextOutput = "Please enter height, weight, age, and sex on profile page";
-        String CaloriesTextOutput = "";
-        float feet = sp.getInt("feet", 0);
-        float inches = sp.getInt("inches", 0);
-        float weight = sp.getInt( "weight", 0);
-        float age = sp.getInt("age", 0);
-        int sex = sp.getInt("sex", 0);
-        String[] sexEntries = getResources().getStringArray(R.array.Sex_Array);
-        int activityIndex = sp.getInt("activity", 0);
-        int goalIndex = sp.getInt("goals", 0);
-        Integer lbsChange = sp.getInt("lbschange", 0);
-        float bmr = 0;
-        float calorieFactor = (float) (activityIndex==0 ? 1.55 : 1.2);
-        float calorieIntake = 0;
-
-        if(feet !=0 && weight!=0 && age != 0){
-            DecimalFormat df = new DecimalFormat();
-            df.setMaximumFractionDigits(2);
-            float totalHeight = feet*12 + inches;
-            if(sexEntries[sex].equals("Male")){
-                bmr = (float) (66.47+(6.24*weight)+(12.7*totalHeight)-(6.755*age));
-                BMRTextOutput = String.valueOf(df.format(bmr));
-            }
-            else if(sexEntries[sex].equals("Female")){
-                bmr = (float) (655.1 + (4.35*weight) + (4.7*totalHeight) - (4.7*age));
-                BMRTextOutput = String.valueOf(df.format(bmr));
-            }
-            else{
-                BMRTextOutput = "Cannot calculate BMR based on Sex";
-            }
-
-            if(bmr != 0) {
-                if (goalIndex == 0) {
-                    //Gain Weight
-                    calorieIntake = bmr*calorieFactor+(lbsChange==1 ? 500: 1000);
-                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
-
-                } else if (goalIndex == 1) {
-                    //Lose Weight
-                    calorieIntake = bmr*calorieFactor-(lbsChange==1 ? 500: 1000);
-                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
-                } else if (goalIndex == 2) {
-                    //Maintain Weight
-                    calorieIntake = bmr*calorieFactor;
-                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
-                }
-            }
-        }
-        BMRText.setText(BMRTextOutput);
-        CaloriesText.setText(CaloriesTextOutput);
-
-        if((calorieIntake < 1200 && sexEntries[sex].equals("Male")) || (calorieIntake<1000 && sexEntries[sex].equals("Females"))){
-            CaloriesWarning.setVisibility(View.VISIBLE);
-        }
-        else{
-            CaloriesWarning.setVisibility(View.GONE);
-        }
-
-
-        // OLD CODE = = == = = == = = = = == = = = = == = = = ==  = == =  =
+//        String BMRTextOutput = "Please enter height, weight, age, and sex on profile page";
+//        String CaloriesTextOutput = "";
+//        float feet = sp.getInt("feet", 0);
+//        float inches = sp.getInt("inches", 0);
+//        float weight = sp.getInt( "weight", 0);
+//        float age = sp.getInt("age", 0);
+//        int sex = sp.getInt("sex", 0);
+//        String[] sexEntries = getResources().getStringArray(R.array.Sex_Array);
+//        int activityIndex = sp.getInt("activity", 0);
+//        int goalIndex = sp.getInt("goals", 0);
+//        Integer lbsChange = sp.getInt("lbschange", 0);
+//        float bmr = 0;
+//        float calorieFactor = (float) (activityIndex==0 ? 1.55 : 1.2);
+//        float calorieIntake = 0;
+//
+//        if(feet !=0 && weight!=0 && age != 0){
+//            DecimalFormat df = new DecimalFormat();
+//            df.setMaximumFractionDigits(2);
+//            float totalHeight = feet*12 + inches;
+//            if(sexEntries[sex].equals("Male")){
+//                bmr = (float) (66.47+(6.24*weight)+(12.7*totalHeight)-(6.755*age));
+//                BMRTextOutput = String.valueOf(df.format(bmr));
+//            }
+//            else if(sexEntries[sex].equals("Female")){
+//                bmr = (float) (655.1 + (4.35*weight) + (4.7*totalHeight) - (4.7*age));
+//                BMRTextOutput = String.valueOf(df.format(bmr));
+//            }
+//            else{
+//                BMRTextOutput = "Cannot calculate BMR based on Sex";
+//            }
+//
+//            if(bmr != 0) {
+//                if (goalIndex == 0) {
+//                    //Gain Weight
+//                    calorieIntake = bmr*calorieFactor+(lbsChange==1 ? 500: 1000);
+//                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+//
+//                } else if (goalIndex == 1) {
+//                    //Lose Weight
+//                    calorieIntake = bmr*calorieFactor-(lbsChange==1 ? 500: 1000);
+//                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+//                } else if (goalIndex == 2) {
+//                    //Maintain Weight
+//                    calorieIntake = bmr*calorieFactor;
+//                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
+//                }
+//            }
+//        }
+//        BMRText.setText(BMRTextOutput);
+//        CaloriesText.setText(CaloriesTextOutput);
+//
+//        if((calorieIntake < 1200 && sexEntries[sex].equals("Male")) || (calorieIntake<1000 && sexEntries[sex].equals("Females"))){
+//            CaloriesWarning.setVisibility(View.VISIBLE);
+//        }
+//        else{
+//            CaloriesWarning.setVisibility(View.GONE);
+//        }
 
     }
 

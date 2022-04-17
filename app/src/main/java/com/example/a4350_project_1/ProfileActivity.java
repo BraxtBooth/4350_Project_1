@@ -2,6 +2,8 @@ package com.example.a4350_project_1;
 
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -27,6 +29,7 @@ import java.util.UUID;
 public class ProfileActivity extends AppCompatActivity {
 
     private ProfileFragment mProfileFragment;
+    UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Pass data to the fragment
         mProfileFragment.setArguments(getIntent().getExtras());
+
+        userViewModel = new ViewModelProvider( this).get(UserViewModel.class);
 
         //No need to check if we're on a tablet. This activity only gets created on phones.
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
@@ -134,10 +139,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("image", generatedFilename);
-        editor.apply();
+//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("image", generatedFilename);
+//        editor.apply();
+
+        userViewModel.updateUserImageURI(generatedFilename);
 
         return directory.getAbsolutePath();
     }
