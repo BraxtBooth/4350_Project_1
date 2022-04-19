@@ -70,7 +70,7 @@ public class MasterListFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         //Get data from main activity
-        CustomListData customListData = getArguments().getParcelable("item_list");
+        CustomListData customListData = new CustomListData();
         List<String> inputList = customListData.getItemList();
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);

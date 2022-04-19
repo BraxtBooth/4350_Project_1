@@ -2,6 +2,7 @@ package com.example.a4350_project_1;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -12,7 +13,10 @@ import java.util.List;
 @Dao
 public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(UserTable userTable);
+    void insert(UserTable user);
+
+    @Delete
+    void delete(UserTable user);
 
     @Query("DELETE FROM user_table")
     void deleteAll();
@@ -25,6 +29,15 @@ public interface UserDao {
 
     @Query("SELECT * from user_table WHERE selected=1 LIMIT 1")
     LiveData<UserTable> getUser();
+
+    @Query("SELECT * from user_table WHERE name=:name LIMIT 1")
+    LiveData<UserTable> findUserByName(String name);
+
+    @Query("SELECT * from user_table WHERE email=:email LIMIT 1")
+    LiveData<UserTable> findUserByEmail(String email);
+
+    @Query("SELECT * from user_table WHERE age=:age LIMIT 1")
+    LiveData<UserTable> findUserByAge(int age);
 
     @Query("UPDATE user_table SET email=:email, name=:name, age=:age, location=:location, feet=:feet, " +
             "inches=:inches, weight=:weight, sex=:sex, goal=:goal, activity=:activity, " +

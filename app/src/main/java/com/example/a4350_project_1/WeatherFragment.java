@@ -87,7 +87,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     }
 
     private void loadWeatherDataToScreen(String location){
-        //pass the location in to the view model
+        // pass the location into the view model
         mWeatherViewModel.setLocation(location);
     }
 
@@ -106,9 +106,6 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
                 int snowAmount = roundToInt(weatherData.getSnow().getAmount());
                 int rainAmount = roundToInt(weatherData.getRain().getAmount());
 
-//                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-//                String location = sp.getString("location", "Austin,US");
-//                tvWeatherSubtitle.setText("Weather information around " + location + ":");
                 tvWeatherSubtitle.setText("Weather information around " + location + ":");
                 tvTempVal.setText(temp + " F");
                 tvMaxTempVal.setText(maxTemp + " F");
@@ -126,23 +123,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
     final Observer<UserTable> userObserver = new Observer<UserTable>() {
         @Override
         public void onChanged(UserTable userTable) {
-//            emailText.setText(userTable.getEmail());
-//            nameText.setText(userTable.getName());
-//            ageText.setText(String.valueOf(userTable.getAge()));
-//            locationText.setText(userTable.getLocation());
-//            heightFeet.setValue(userTable.getFeet());
-//            heightInches.setValue(userTable.getInches());
-//            weightText.setText(String.valueOf(userTable.getWeight()));
-//            sexText.setSelection(userTable.getSex());
-//            goalsText.setSelection(userTable.getGoal());
-//            activityText.setSelection(userTable.getActivity());
-//            lbsChange.setValue(userTable.getGoalChange());
-
-
-//            location = userTable.getLocation();
-//            loadWeatherDataToScreen(location);
-//            tvWeatherSubtitle.setText("Weather information around " + location + ":");
-
+            mWeatherViewModel.setLocation(userTable.getLocation());
         }
     };
 

@@ -48,14 +48,14 @@ public class HeadActivity extends AppCompatActivity
         setContentView(R.layout.activity_head);
 
         //Put this into a bundle
-        Bundle fragmentBundle = new Bundle();
-        fragmentBundle.putParcelable("item_list", mCustomListData);
+//        Bundle fragmentBundle = new Bundle();
+//        fragmentBundle.putParcelable("item_list", mCustomListData);
 
         //Create the fragment
         mMasterListFragment = new MasterListFragment();
 
         //Pass data to the fragment
-        mMasterListFragment.setArguments(fragmentBundle);
+//        mMasterListFragment.setArguments(fragmentBundle);
 
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
         userViewModel = new ViewModelProvider( this).get(UserViewModel.class);

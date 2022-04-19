@@ -5,23 +5,23 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomListData implements Parcelable {
+public class CustomListData{
 
     //Implement the creator method
-    public static final Parcelable.Creator<CustomListData> CREATOR = new Parcelable.Creator<CustomListData>() {
-
-        //Call the private constructor
-        @Override
-        public CustomListData createFromParcel(Parcel in) {
-            return new CustomListData(in);
-        }
-
-        @Override
-        public CustomListData[] newArray(int size) {
-            return new CustomListData[size];
-        }
-
-    };
+//    public static final Parcelable.Creator<CustomListData> CREATOR = new Parcelable.Creator<CustomListData>() {
+//
+//        //Call the private constructor
+//        @Override
+//        public CustomListData createFromParcel(Parcel in) {
+//            return new CustomListData(in);
+//        }
+//
+//        @Override
+//        public CustomListData[] newArray(int size) {
+//            return new CustomListData[size];
+//        }
+//
+//    };
     private List<String> modulesList;
     private List<String> modulesListDetails;
 
@@ -59,18 +59,18 @@ public class CustomListData implements Parcelable {
         modulesListDetails.add("Gyms fragment");
     }
 
-    //Say how and what to write to parcel
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeStringList(modulesList);
-        out.writeStringList(modulesListDetails);
-    }
-
-    //Don't worry about this for now.
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+//    //Say how and what to write to parcel
+//    @Override
+//    public void writeToParcel(Parcel out, int flags) {
+//        out.writeStringList(modulesList);
+//        out.writeStringList(modulesListDetails);
+//    }
+//
+//    //Don't worry about this for now.
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
 
     //Implement a getter and setter for getting whole list
     public List<String> getItemList() {

@@ -33,11 +33,6 @@
         <activity
             android:name=".BMIActivity"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.4350_Project_1.NoActionBar" />
     </application>
 
 </manifest>

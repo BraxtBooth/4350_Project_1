@@ -15,9 +15,6 @@ public class UserViewModel extends AndroidViewModel {
         mRepository = Repository.getInstance(application);
         userData = mRepository.getUserData();
     }
-//    public void setUsername(){
-//        mRepository.setUserName(name);
-//    }
 
     public void setCurrentUser() { mRepository.setCurrentUser(); }
 

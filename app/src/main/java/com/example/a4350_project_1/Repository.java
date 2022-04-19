@@ -23,9 +23,7 @@ public class Repository {
     private WeatherDao mWeatherDao;
 
     private LiveData<UserTable> currentUser = new MutableLiveData<UserTable>();
-    private LiveData<List<UserTable>> users = new MutableLiveData<List<UserTable>>();
     private String userName;
-//    private String userString;
     private UserDao userDao;
 
     private Repository(Application application){
@@ -97,6 +95,10 @@ public class Repository {
 //                userDao.insert(userTable);
 //            });
         }
+    }
+
+    public void insertNewUser(UserTable newUser){
+
     }
 
     public MutableLiveData<WeatherData> getWeatherData() {
