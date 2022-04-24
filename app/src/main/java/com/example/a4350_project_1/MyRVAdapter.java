@@ -59,9 +59,9 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.ViewHolder> {
         else if(holder.getAdapterPosition() == 2) icon = R.drawable.weather;
         else if(holder.getAdapterPosition() == 3) icon = R.drawable.hikes;
         else if(holder.getAdapterPosition() == 4) icon = R.drawable.gym;
+        else if(holder.getAdapterPosition() == 5) icon = R.drawable.step;
 
         holder.moduleIcon.setImageResource(icon);
-
         holder.moduleDesc.setText(mListItems.get(holder.getAdapterPosition()));
         holder.moduleLayout.setOnClickListener(new View.OnClickListener(){
             @Override

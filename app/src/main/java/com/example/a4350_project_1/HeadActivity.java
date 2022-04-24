@@ -1,5 +1,6 @@
 package com.example.a4350_project_1;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
@@ -10,20 +11,31 @@ import android.content.Intent;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,12 +52,30 @@ public class HeadActivity extends AppCompatActivity
     private MasterListFragment mMasterListFragment;
     WeatherViewModel weatherViewModel;
     UserViewModel userViewModel;
+//    private SensorManager mSensorManager;
+//    private Sensor mYAccelerometer;
+//    private Sensor mStepCounter;
+//    private final double shakeSensitivityThreshold = 4.0;
+//    private double last_y, now_y;
+//    private boolean notFirstTime;
+//    private MediaPlayer player;
+//    int stepCount = 0;
+//    private TextView tvSteps;
+//    private boolean isCounterSensorPresent;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_head);
+
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) { // ask for permission
+            requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+//        tvSteps = (TextView) findViewById(R.id.tvStepCounter);
 
         //Put this into a bundle
 //        Bundle fragmentBundle = new Bundle();
@@ -61,6 +91,19 @@ public class HeadActivity extends AppCompatActivity
         userViewModel = new ViewModelProvider( this).get(UserViewModel.class);
         userViewModel.setCurrentUser();
 
+//        // get sensor manager
+//        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+//        // get default light(shake) sensor
+//        mYAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+////        mStepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+//        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null){
+//            mStepCounter= mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+////            isCounterSensorPresent = true;
+//        } else {
+//            tvSteps.setText("--");
+////            isCounterSensorPresent = false;
+//        }
+
         //If we're on a tablet, the master fragment appears on the left pane. If we're on a phone,
         //it takes over the whole screen
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
@@ -72,6 +115,50 @@ public class HeadActivity extends AppCompatActivity
         }
         fTrans.commit();
     }
+
+//    private SensorEventListener mAccelerometerListener = new SensorEventListener() {
+//        @Override
+//        public void onSensorChanged(SensorEvent sensorEvent) {
+//            now_y = sensorEvent.values[1];
+//            if(notFirstTime){
+//                double dy = Math.abs(last_y - now_y);
+//                if(dy > shakeSensitivityThreshold){
+//                    Toast.makeText(getApplicationContext(), "it worked", Toast.LENGTH_SHORT).show();
+//                    //Toast.makeText(this, "Step Counter STOPPED", Toast.LENGTH_SHORT).show();
+//                    play();
+//                    isCounterSensorPresent = true;
+//                }
+//            }
+//            last_y = now_y;
+//            notFirstTime = true;
+//        }
+//
+//        @Override
+//        public void onAccuracyChanged(Sensor sensor, int i) {
+//
+//        }
+//    };
+//
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(mAccelerometerListener!=null){
+//            mSensorManager.registerListener(mAccelerometerListener, mYAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+//        }
+//        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
+//            mSensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if(mYAccelerometer!=null){
+//            mSensorManager.unregisterListener(mAccelerometerListener);
+//        }
+//        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
+//            mSensorManager.unregisterListener(this, mStepCounter);
+//    }
 
     //This receives the position of the clicked item in the MasterListFragment's RecyclerView
     @Override
@@ -261,4 +348,47 @@ public class HeadActivity extends AppCompatActivity
         return directory.getAbsolutePath();
     }
     // = = = = = = = END OF CODE FOR IMAGE UPLOAD
+
+//    public void play(){
+//        if(player == null){
+//            player = MediaPlayer.create(this, R.raw.on);
+//            Toast.makeText(this, "Step Counter ON", Toast.LENGTH_SHORT).show();
+//            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                @Override
+//                public void onCompletion(MediaPlayer mediaPlayer) {
+//                    stopPlayer();
+//                }
+//            });
+//        }
+//        player.start();
+//    }
+//
+//    public void stop(View v){
+//        stopPlayer();
+//    }
+//
+//    private void stopPlayer(){
+//        if(player != null){
+//            player.release();
+//            player = null;
+//        }
+//    }
+//
+//    @Override protected void onStop() {
+//        super.onStop();
+//        stopPlayer();
+//    }
+
+//    @Override
+//    public void onSensorChanged(SensorEvent sensorEvent) {
+//        if(sensorEvent.sensor == mStepCounter && isCounterSensorPresent && sensorEvent.values[0] > 0){
+//            stepCount = (int) sensorEvent.values[0];
+//            tvSteps.setText(String.valueOf(stepCount));
+//        }
+//    }
+//
+//    @Override
+//    public void onAccuracyChanged(Sensor sensor, int i) {
+//
+//    }
 }

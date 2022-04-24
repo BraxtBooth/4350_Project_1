@@ -57,6 +57,8 @@ public class CustomListData{
         modulesListDetails.add("Hikes fragment");
         modulesList.add("Gyms near you >");
         modulesListDetails.add("Gyms fragment");
+        modulesList.add("Step Counter");
+        modulesListDetails.add("Step Counter fragment");
     }
 
 //    //Say how and what to write to parcel

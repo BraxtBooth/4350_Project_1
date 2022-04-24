@@ -8,6 +8,11 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -24,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,7 +37,7 @@ import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class MasterListFragment extends Fragment {
+public class MasterListFragment extends Fragment implements SensorEventListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -48,6 +54,17 @@ public class MasterListFragment extends Fragment {
     int activityIndex;
     int goalIndex;
     Integer lbsChange;
+
+    private SensorManager mSensorManager;
+    private Sensor mYAccelerometer;
+    private Sensor mStepCounter;
+    private final double shakeSensitivityThreshold = 12.0;
+    private double last_y, now_y;
+    private boolean notFirstTime;
+    private MediaPlayer player;
+    int stepCount = 0;
+    private TextView tvSteps;
+    private boolean isCounterSensorPresent;
 
     @Override
     public void onAttach(Context context) {
@@ -80,9 +97,67 @@ public class MasterListFragment extends Fragment {
         mAdapter = new MyRVAdapter(inputList);
         mRecyclerView.setAdapter(mAdapter);
 
+        // get sensor manager
+        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        // get default light(shake) sensor
+        mYAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+//        mStepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null){
+            mStepCounter= mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+//            isCounterSensorPresent = true;
+        } else {
+//            tvSteps.setText("--");
+//            isCounterSensorPresent = false;
+        }
+
         setRetainInstance(true);
 
         return fragmentView;
+    }
+
+
+    private SensorEventListener mAccelerometerListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            now_y = sensorEvent.values[1];
+            if(notFirstTime){
+                double dy = Math.abs(last_y - now_y);
+                if(dy > shakeSensitivityThreshold){
+                    Toast.makeText(getContext(), "it worked", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Step Counter STOPPED", Toast.LENGTH_SHORT).show();
+                    play();
+                    isCounterSensorPresent = true;
+                }
+            }
+            last_y = now_y;
+            notFirstTime = true;
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mAccelerometerListener!=null){
+            mSensorManager.registerListener(mAccelerometerListener, mYAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
+            mSensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mYAccelerometer!=null){
+            mSensorManager.unregisterListener(mAccelerometerListener);
+        }
+        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
+            mSensorManager.unregisterListener(this, mStepCounter);
     }
 
     final Observer<UserTable> userObserver = new Observer<UserTable>() {
@@ -170,6 +245,8 @@ public class MasterListFragment extends Fragment {
         CaloriesText = (TextView) getView().findViewById(R.id.tvCaloriesValue);
         CaloriesWarning = (TextView) getView().findViewById(R.id.tvCalorieWarning);
 
+        tvSteps = (TextView) getView().findViewById(R.id.tvStepCounter);
+
 //        String BMRTextOutput = "Please enter height, weight, age, and sex on profile page";
 //        String CaloriesTextOutput = "";
 //        float feet = sp.getInt("feet", 0);
@@ -245,6 +322,48 @@ public class MasterListFragment extends Fragment {
         {
             e.printStackTrace();
         }
+    }
+
+    public void play(){
+        if(player == null){
+            player = MediaPlayer.create(getContext(), R.raw.on);
+            Toast.makeText(getContext(), "Step Cthisounter ON", Toast.LENGTH_SHORT).show();
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayer) {
+                    stopPlayer();
+                }
+            });
+        }
+        player.start();
+    }
+
+    public void stop(View v){
+        stopPlayer();
+    }
+
+    private void stopPlayer(){
+        if(player != null){
+            player.release();
+            player = null;
+        }
+    }
+
+    @Override public void onStop() {
+        super.onStop();
+        stopPlayer();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if(sensorEvent.sensor == mStepCounter && isCounterSensorPresent && sensorEvent.values[0] > 0){
+            stepCount = (int) sensorEvent.values[0];
+            tvSteps.setText(String.valueOf(stepCount));
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
 
     }
 }
