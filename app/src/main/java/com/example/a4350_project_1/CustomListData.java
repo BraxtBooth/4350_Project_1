@@ -57,7 +57,7 @@ public class CustomListData{
         modulesListDetails.add("Hikes fragment");
         modulesList.add("Gyms near you >");
         modulesListDetails.add("Gyms fragment");
-        modulesList.add("Step Counter");
+        modulesList.add("Step Counter Logs");
         modulesListDetails.add("Step Counter fragment");
     }
 

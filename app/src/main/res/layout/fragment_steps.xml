@@ -14,27 +14,28 @@
             android:id="@+id/tvStepsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
             android:text="@string/Steps_Label"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.022" />
 
         <ListView
             android:id="@+id/lvSteps"
             style="@style/Widget.AppCompat.ListView"
-            android:layout_width="409dp"
-            android:layout_height="645dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="393dp"
+            android:layout_height="664dp"
+            android:layout_marginTop="16dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvStepsLabel"
-            app:layout_constraintVertical_bias="0.737" />
+            app:layout_constraintVertical_bias="0.304" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

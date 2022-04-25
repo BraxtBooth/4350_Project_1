@@ -38,18 +38,16 @@ public class StepsFragment extends Fragment {
         Toast.makeText(getContext(), stepsArray.get(2), Toast.LENGTH_LONG).show();
         datesArray = new ArrayList<>(Arrays.asList(dates.split("/")));
 
-        lvSteps = (ListView) view.findViewById(R.id.lvSteps);
+        lvSteps = view.findViewById(R.id.lvSteps);
 //        for(int i=0; i<stepsArray.size(); i++){
 //
 //        }
 //        String[] steps = stepsArray.toArray(new String[stepsArray.size()]);
-        ArrayAdapter<String> stepsListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_2);
-        stepsListAdapter.add("frf");
-        stepsListAdapter.add("frf");
-        stepsListAdapter.add("frf");
+        ArrayAdapter<String> stepsListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+        for(int i=0; i<stepsArray.size(); i++){
+            stepsListAdapter.add("Log Date: " + datesArray.get(i) + ", Steps: " + stepsArray.get(i));
+        }
         lvSteps.setAdapter(stepsListAdapter);
-        lvSteps.setSelection(0);
-
-        return inflater.inflate(R.layout.fragment_steps, container, false);
+        return view;
     }
 }

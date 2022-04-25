@@ -167,8 +167,8 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
 //                        String[] datesArray = steps.split("/");
                         ArrayList<String> stepsArray = new ArrayList<>(Arrays.asList(steps.split("/")));  //  23/5454/23232/43423/
                         ArrayList<String> datesArray = new ArrayList<>(Arrays.asList(dates.split("/")));
-                        if(stepsArray.size() == 10) stepsArray.remove(stepsArray.size()-1);
-                        if(datesArray.size() == 10) datesArray.remove(datesArray.size()-1);
+                        if(stepsArray.size() == 30) stepsArray.remove(stepsArray.size()-1);
+                        if(datesArray.size() == 30) datesArray.remove(datesArray.size()-1);
 
                         // setting the date
                         Calendar calendar;
