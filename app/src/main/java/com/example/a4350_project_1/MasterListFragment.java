@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 
 import android.content.ContextWrapper;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -13,7 +12,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +20,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +31,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class MasterListFragment extends Fragment implements SensorEventListener {
@@ -58,13 +58,16 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
     private SensorManager mSensorManager;
     private Sensor mYAccelerometer;
     private Sensor mStepCounter;
-    private final double shakeSensitivityThreshold = 12.0;
-    private double last_y, now_y;
-    private boolean notFirstTime;
+    private final double shakeSensitivityThresholdY = 20.0;
+    private final double shakeSensitivityThresholdX = 15.0;
+    private double last_y, now_y, last_x, now_x;
+    private boolean notFirstTimeY;
+    private boolean notFirstTimeX;
     private MediaPlayer player;
     int stepCount = 0;
     private TextView tvSteps;
     private boolean isCounterSensorPresent;
+    private boolean stepCounterOn;
 
     @Override
     public void onAttach(Context context) {
@@ -75,6 +78,8 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_master_list, container, false);
+
+        stepCounterOn = false;
 
         //Get the recycler view
         mRecyclerView = (RecyclerView) fragmentView.findViewById(R.id.rv_Master);
@@ -119,18 +124,72 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
     private SensorEventListener mAccelerometerListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
+            now_x = sensorEvent.values[0];
             now_y = sensorEvent.values[1];
-            if(notFirstTime){
+            if(notFirstTimeY){
                 double dy = Math.abs(last_y - now_y);
-                if(dy > shakeSensitivityThreshold){
-                    Toast.makeText(getContext(), "it worked", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(this, "Step Counter STOPPED", Toast.LENGTH_SHORT).show();
-                    play();
-                    isCounterSensorPresent = true;
+                if(dy > shakeSensitivityThresholdY){
+                    if(!stepCounterOn){
+                        stepCounterOn = true;
+                        Toast.makeText(getContext(), "Step Counter ON", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(this, "Step Counter STOPPED", Toast.LENGTH_SHORT).show();
+                        play(true);
+                        isCounterSensorPresent = true;
+                    }
+                }
+            }
+            if(notFirstTimeX){
+                double dx = Math.abs(last_x - now_x);
+                if(dx > shakeSensitivityThresholdX){
+                    if(stepCounterOn){
+                        stepCounterOn = false;
+                        Toast.makeText(getContext(), "Step Counter OFF", Toast.LENGTH_SHORT).show();
+                        play(false);
+                        isCounterSensorPresent = false;
+                        mSensorManager.unregisterListener(this, mStepCounter);
+                        tvSteps.setText("Not Activated");
+
+                        //public LiveData<UserTable> getUserData(){
+                        //        return userData;
+                        //    }
+
+//                        // testing date formats
+//                        Calendar calendar;
+//                        SimpleDateFormat dateFormat;
+//                        String date;
+//                        calendar = Calendar.getInstance();
+//                        dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+//                        date = dateFormat.format(calendar.getTime());
+//                        Toast.makeText(this, date, Toast.LENGTH_LONG).show();
+                        String steps = userViewModel.getUserData().getValue().getSteps();
+                        String dates = userViewModel.getUserData().getValue().getDates();
+//                        String[] stepsArray = steps.split("/");
+//                        String[] datesArray = steps.split("/");
+                        ArrayList<String> stepsArray = new ArrayList<>(Arrays.asList(steps.split("/")));  //  23/5454/23232/43423/
+                        ArrayList<String> datesArray = new ArrayList<>(Arrays.asList(dates.split("/")));
+                        if(stepsArray.size() == 10) stepsArray.remove(stepsArray.size()-1);
+                        if(datesArray.size() == 10) datesArray.remove(datesArray.size()-1);
+
+                        // setting the date
+                        Calendar calendar;
+                        SimpleDateFormat dateFormat;
+                        String date;
+                        calendar = Calendar.getInstance();
+                        dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                        date = dateFormat.format(calendar.getTime());
+                        stepsArray.add(0, String.valueOf(stepCount));
+                        datesArray.add(0, date);
+                        userViewModel.updateUserSteps(String.join("/", stepsArray));
+                        userViewModel.updateUserDates(String.join("/", datesArray));
+
+                        stepCount = 0;
+                    }
                 }
             }
             last_y = now_y;
-            notFirstTime = true;
+            notFirstTimeY = true;
+            last_x = now_x;
+            notFirstTimeX = true;
         }
 
         @Override
@@ -324,16 +383,28 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
         }
     }
 
-    public void play(){
+    public void play(boolean stepCounterTurnedOn){
         if(player == null){
-            player = MediaPlayer.create(getContext(), R.raw.on);
-            Toast.makeText(getContext(), "Step Cthisounter ON", Toast.LENGTH_SHORT).show();
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    stopPlayer();
-                }
-            });
+            if(stepCounterTurnedOn){
+                player = MediaPlayer.create(getContext(), R.raw.on);
+//            Toast.makeText(getContext(), "Step Cthisounter ON", Toast.LENGTH_SHORT).show();
+                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        stopPlayer();
+                    }
+                });
+            } else {
+                player = MediaPlayer.create(getContext(), R.raw.off);
+//            Toast.makeText(getContext(), "Step Cthisounter ON", Toast.LENGTH_SHORT).show();
+                player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        stopPlayer();
+                    }
+                });
+            }
+
         }
         player.start();
     }
@@ -357,7 +428,8 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sensorEvent.sensor == mStepCounter && isCounterSensorPresent && sensorEvent.values[0] > 0){
-            stepCount = (int) sensorEvent.values[0];
+//            stepCount = (int) sensorEvent.values[0];
+            stepCount++;
             tvSteps.setText(String.valueOf(stepCount));
         }
     }

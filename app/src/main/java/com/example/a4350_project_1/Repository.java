@@ -72,6 +72,18 @@ public class Repository {
         });
     }
 
+    public void updateUserDates(String dates){
+        Database.databaseExecutor.execute(() -> {
+            userDao.updateUserDates(dates);
+        });
+    }
+
+    public void updateUserSteps(String steps){
+        Database.databaseExecutor.execute(() -> {
+            userDao.updateUserSteps(steps);
+        });
+    }
+
     private void insertWeatherInfo(){
         if(mWeatherLocation != null && mJsonWeatherString != null) {
             WeatherTable weatherTable = new WeatherTableBuilder().setLocation(mWeatherLocation).setWeatherJson(mJsonWeatherString).createWeatherTable();

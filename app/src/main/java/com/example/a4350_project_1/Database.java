@@ -24,7 +24,7 @@ public abstract class Database extends RoomDatabase {
     static synchronized Database getDatabase(final Context context){
         if(mInstance==null) {
             mInstance = Room.databaseBuilder(context.getApplicationContext(),
-                    Database.class, "test.db").addCallback(sRoomDatabaseCallback).build();
+                    Database.class, "database.db").addCallback(sRoomDatabaseCallback).build();
         }
         return mInstance;
     }
@@ -42,7 +42,7 @@ public abstract class Database extends RoomDatabase {
                 userDao.deleteAll();
                 UserTable userTable = new UserTableBuilder().setEmail("john@email.com").setSelected(true).setName("John").setAge(25).
                         setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0).setGoal(0).setActivity(0).
-                        setGoalChange(0).setImageURI("f00fcf37-add8-4b04-8157-1a20274eade7.JPG").createUserTable();
+                        setGoalChange(0).setImageURI("f00fcf37-add8-4b04-8157-1a20274eade7.JPG").setSteps("").setDates("").createUserTable();
                 userDao.insert(userTable);
             });
         }
@@ -77,7 +77,7 @@ public abstract class Database extends RoomDatabase {
                     userDao.deleteAll();
                     UserTable userTable = new UserTableBuilder().setEmail("john@email.com").setSelected(true).setName("John").setAge(25).
                             setLocation("Salt Lake City, US").setFeet(5).setInches(11).setWeight(175).setSex(0).setGoal(0).setActivity(0).
-                            setGoalChange(0).setImageURI("f00fcf37-add8-4b04-8157-1a20274eade7.JPG").createUserTable();
+                            setGoalChange(0).setImageURI("f00fcf37-add8-4b04-8157-1a20274eade7.JPG").setSteps("").setDates("").createUserTable();
                     userDao.insert(userTable);
                 }
             });

@@ -48,6 +48,12 @@ public interface UserDao {
     @Query("UPDATE user_table SET imageURI=:imageURI WHERE selected=1")
     void updateUserImageURI(String imageURI);
 
+    @Query("UPDATE user_table SET steps=:steps WHERE selected=1")
+    void updateUserSteps(String steps);
+
+    @Query("UPDATE user_table SET dates=:dates WHERE selected=1")
+    void updateUserDates(String dates);
+
     @Query("SELECT * from user_table LIMIT 1")
     LiveData<UserTable> getAllUsers();
 

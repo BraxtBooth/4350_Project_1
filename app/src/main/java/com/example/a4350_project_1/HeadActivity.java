@@ -43,6 +43,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.UUID;
 
 public class HeadActivity extends AppCompatActivity
@@ -52,16 +54,6 @@ public class HeadActivity extends AppCompatActivity
     private MasterListFragment mMasterListFragment;
     WeatherViewModel weatherViewModel;
     UserViewModel userViewModel;
-//    private SensorManager mSensorManager;
-//    private Sensor mYAccelerometer;
-//    private Sensor mStepCounter;
-//    private final double shakeSensitivityThreshold = 4.0;
-//    private double last_y, now_y;
-//    private boolean notFirstTime;
-//    private MediaPlayer player;
-//    int stepCount = 0;
-//    private TextView tvSteps;
-//    private boolean isCounterSensorPresent;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -207,6 +199,13 @@ public class HeadActivity extends AppCompatActivity
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
             }
+            else if(position == 5){
+                Fragment stepsFragment = new StepsFragment();
+                stepsFragment.setArguments(detailBundle);
+                FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
+                fTrans.replace(R.id.itemdetail_container_tablet, stepsFragment, "steps-fragment");
+                fTrans.commit();
+            }
         }
 
         else{ //On a phone
@@ -238,6 +237,11 @@ public class HeadActivity extends AppCompatActivity
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, searchUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
+            }
+            else if(position == 5){
+                Intent sendIntent = new Intent(this, StepsActivity.class);
+                sendIntent.putExtras(detailBundle);
+                startActivity(sendIntent);
             }
 
         }
@@ -348,47 +352,4 @@ public class HeadActivity extends AppCompatActivity
         return directory.getAbsolutePath();
     }
     // = = = = = = = END OF CODE FOR IMAGE UPLOAD
-
-//    public void play(){
-//        if(player == null){
-//            player = MediaPlayer.create(this, R.raw.on);
-//            Toast.makeText(this, "Step Counter ON", Toast.LENGTH_SHORT).show();
-//            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                @Override
-//                public void onCompletion(MediaPlayer mediaPlayer) {
-//                    stopPlayer();
-//                }
-//            });
-//        }
-//        player.start();
-//    }
-//
-//    public void stop(View v){
-//        stopPlayer();
-//    }
-//
-//    private void stopPlayer(){
-//        if(player != null){
-//            player.release();
-//            player = null;
-//        }
-//    }
-//
-//    @Override protected void onStop() {
-//        super.onStop();
-//        stopPlayer();
-//    }
-
-//    @Override
-//    public void onSensorChanged(SensorEvent sensorEvent) {
-//        if(sensorEvent.sensor == mStepCounter && isCounterSensorPresent && sensorEvent.values[0] > 0){
-//            stepCount = (int) sensorEvent.values[0];
-//            tvSteps.setText(String.valueOf(stepCount));
-//        }
-//    }
-//
-//    @Override
-//    public void onAccuracyChanged(Sensor sensor, int i) {
-//
-//    }
 }

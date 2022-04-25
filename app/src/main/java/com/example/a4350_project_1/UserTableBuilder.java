@@ -15,6 +15,8 @@ public class UserTableBuilder {
     private int activity;
     private int goalChange;
     private String imageURI;
+    private String steps;
+    private String dates;
 
     public UserTableBuilder setEmail(String email) {
         this.email = email;
@@ -81,7 +83,17 @@ public class UserTableBuilder {
         return this;
     }
 
+    public UserTableBuilder setSteps(String steps){
+        this.steps = steps;
+        return this;
+    }
+
+    public UserTableBuilder setDates(String dates){
+        this.dates = dates;
+        return this;
+    }
+
     public UserTable createUserTable() {
-        return new UserTable(email, selected, name, age, location, feet, inches, weight, sex, goal, activity, goalChange, imageURI);
+        return new UserTable(email, selected, name, age, location, feet, inches, weight, sex, goal, activity, goalChange, imageURI, steps, dates);
     }
 }

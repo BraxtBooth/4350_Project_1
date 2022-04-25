@@ -53,16 +53,24 @@ public class UserTable {
     private int activity;
 
     @NonNull
-    @ColumnInfo(name = "goalChange") //
+    @ColumnInfo(name = "goalChange")
     private int goalChange;
 
     @NonNull
-    @ColumnInfo(name = "imageURI") //
+    @ColumnInfo(name = "imageURI")
     private String imageURI;
+
+    @NonNull
+    @ColumnInfo(name = "steps")
+    private String steps;
+
+    @NonNull
+    @ColumnInfo(name = "dates")
+    private String dates;
 
     public UserTable(@NonNull String email, @NonNull boolean selected, @NonNull String name, @NonNull int age, @NonNull String location, @NonNull int feet,
                      @NonNull int inches, @NonNull int weight, @NonNull int sex, @NonNull int goal,
-                     @NonNull int activity, @NonNull int goalChange, @NonNull String imageURI){
+                     @NonNull int activity, @NonNull int goalChange, @NonNull String imageURI,  @NonNull String steps,  @NonNull String dates){
         setEmail(email);
         setSelected(selected);
         setName(name);
@@ -76,6 +84,8 @@ public class UserTable {
         setActivity(activity);
         setGoalChange(goalChange);
         setImageURI(imageURI);
+        setSteps(steps);
+        setDates(dates);
     }
 
     public void setEmail(String email){
@@ -103,6 +113,8 @@ public class UserTable {
     }
     public void setGoalChange(int goalChange){ this.goalChange = goalChange; }
     public void setImageURI(String imageURI) { this.imageURI = imageURI; }
+    public void setSteps(String steps){ this.steps = steps; }
+    public void setDates(String dates) { this.dates = dates; }
 
     public String getEmail(){
         return email;
@@ -132,5 +144,9 @@ public class UserTable {
     public int getGoalChange(){ return goalChange; }
     public String getImageURI(){
         return imageURI;
+    }
+    public String getSteps(){ return steps; }
+    public String getDates(){
+        return dates;
     }
 }

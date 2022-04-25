@@ -19,6 +19,7 @@
     <string name="Image_Upload_Button">Upload/Change Profile Picture</string>
     <string name="Steps_Today_Label">Steps So Far:</string>
     <string name="Steps_Not_activated">Not Activated</string>
+    <string name="Steps_Label">Your 10 Most Recent Steps</string>
 
 
     <!--Labels for the Weather Fragment-->
