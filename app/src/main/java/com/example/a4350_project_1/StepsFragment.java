@@ -35,7 +35,7 @@ public class StepsFragment extends Fragment {
         steps = userViewModel.getUserData().getValue().getSteps();
         dates = userViewModel.getUserData().getValue().getDates();
         stepsArray = new ArrayList<>(Arrays.asList(steps.split("/")));
-        Toast.makeText(getContext(), stepsArray.get(2), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getContext(), stepsArray.get(2), Toast.LENGTH_LONG).show();
         datesArray = new ArrayList<>(Arrays.asList(dates.split("/")));
 
         lvSteps = view.findViewById(R.id.lvSteps);
@@ -43,11 +43,14 @@ public class StepsFragment extends Fragment {
 //
 //        }
 //        String[] steps = stepsArray.toArray(new String[stepsArray.size()]);
-        ArrayAdapter<String> stepsListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
-        for(int i=0; i<stepsArray.size(); i++){
-            stepsListAdapter.add("Log Date: " + datesArray.get(i) + ", Steps: " + stepsArray.get(i));
+
+        if(!stepsArray.get(0).equals("")) {
+            ArrayAdapter<String> stepsListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);
+            for (int i = 0; i < stepsArray.size(); i++) {
+                stepsListAdapter.add("Log Date: " + datesArray.get(i) + ", Steps: " + stepsArray.get(i));
+            }
+            lvSteps.setAdapter(stepsListAdapter);
         }
-        lvSteps.setAdapter(stepsListAdapter);
         return view;
     }
 }

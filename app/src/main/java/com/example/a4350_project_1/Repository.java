@@ -3,10 +3,13 @@ package com.example.a4350_project_1;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.amplifyframework.AmplifyException;
 
 import org.json.JSONException;
 
@@ -64,6 +67,11 @@ public class Repository {
         Database.databaseExecutor.execute(() -> {
             userDao.updateUser(email, name, age, location, feet, inches, weight, sex, goal, activity, goalChange);
         });
+        try{
+            AWSAmplify.uploadDBFile();
+        } catch (Exception e){
+            Log.e("Amplify", "User insert amplify error", e);
+        }
     }
 
     public void updateUserStringURI(String imageURI){
@@ -82,6 +90,11 @@ public class Repository {
         Database.databaseExecutor.execute(() -> {
             userDao.updateUserSteps(steps);
         });
+        try{
+            AWSAmplify.uploadDBFile();
+        } catch (Exception e){
+            Log.e("Amplify", "Step Count insert amplify error", e);
+        }
     }
 
     private void insertWeatherInfo(){
@@ -90,6 +103,11 @@ public class Repository {
             Database.databaseExecutor.execute(() -> {
                 mWeatherDao.insert(weatherTable);
             });
+        }
+        try{
+            AWSAmplify.uploadDBFile();
+        } catch (Exception e){
+            Log.e("Amplify", "Weather insert amplify error", e);
         }
     }
 
