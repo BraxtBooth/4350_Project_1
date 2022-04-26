@@ -23,7 +23,6 @@ public class LocationData {
         mLongitude = longitude;
     }
 
-
     public long getSunset() {
         return mSunset;
     }

@@ -21,8 +21,8 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="202dp"
-            android:layout_height="52dp"
+            android:layout_width="251dp"
+            android:layout_height="79dp"
             android:layout_marginTop="32dp"
             android:text="@string/Welcome"
             android:textSize="34sp"
@@ -34,8 +34,8 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
             android:text="@string/BMR_Estimate_Label"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,17 +61,17 @@
             android:textColor="#FF0000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.677"
+            app:layout_constraintHorizontal_bias="0.322"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvStepCounterLabel"
-            app:layout_constraintVertical_bias="0.078" />
+            app:layout_constraintVertical_bias="0.06" />
 
         <TextView
             android:id="@+id/tvMBRValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="8dp"
             android:text="value"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -106,20 +106,24 @@
             android:id="@+id/tvStepCounterLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="@string/Steps_Today_Label"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
+            app:layout_constraintHorizontal_bias="0.972"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <TextView
             android:id="@+id/tvStepCounter"
-            android:layout_width="141dp"
-            android:layout_height="68dp"
+            android:layout_width="177dp"
+            android:layout_height="46dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:text="@string/Steps_Not_activated"
             android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/tvStepCounterLabel"
             app:layout_constraintTop_toBottomOf="@+id/tvCaloriesValue" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,9 +37,7 @@ public class WeatherFragment extends Fragment implements View.OnClickListener {
 
         //Inflate the detail view
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
-        //Get the text view
-//        mTvItemDetail = (TextView) view.findViewById(R.id.tvWeatherTitle);
-        //Get the incoming detail text
+
         String detailString = getArguments().getString("item_detail");
 
 //        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());

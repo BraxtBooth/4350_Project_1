@@ -8,7 +8,7 @@
     <string name="previous">Previous</string>
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="Welcome">Lifestyle App</string>
+    <string name="Welcome">LifeStyle App</string>
     <string name="Profile_Page_Nav_Button">Profile</string>\
     <string name="BMI_Title">Check your BMI</string>
     <string name="BMI_Button">BMI</string>
@@ -19,7 +19,10 @@
     <string name="Image_Upload_Button">Upload/Change Profile Picture</string>
     <string name="Steps_Today_Label">Steps So Far:</string>
     <string name="Steps_Not_activated">Not Activated</string>
-    <string name="Steps_Label">Your 10 Most Recent Step Logs</string>
+    <string name="Steps_Label">Your 30 Most Recent Step Logs</string>
+    <string name="Help_Label">Welcome to the LifeStyle App</string>
+    <string name="Help_Description">Welcome to the LifeStyle App, the app that helps you achieve your goal to have a healthy body and life.\n\nThis application can calculate your BMR and BMI, as well as the amount of calories to hit per week so you can lose/gain a desired amount of weight.\n\nTo calculate this information, you will need to click on "Profile", and fill out information about you. When you finish filling out the required information, the app will automatically calculate your BMR and BMI indexes, and also the calories you need to lose/gain per day to achieve your goal.\n\nIf you tap on “Check Weather Today”, the app will provide the weather forecast in your area. Also, it has the “Hikes near you” and “Gyms near you” options that will provide the location of the hikes and gyms near your current location that you could consider to get some exercise.\n\nTo start a Step Count session, all you need to do is to shake your device up and down and it will start the step counter. Whenever you want to finish a session, shake the divide left and right, and the amount of steps and the date will be stored. You can always check your past logs if you tap on “Step Counter Logs”.
+</string>
 
 
     <!--Labels for the Weather Fragment-->

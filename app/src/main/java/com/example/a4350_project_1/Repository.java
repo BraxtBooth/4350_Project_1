@@ -113,17 +113,7 @@ public class Repository {
 
     private void insertUserInfo(){
         if(userName != null) {
-//            UserTable userTable = new UserTableBuilder().setName(userName).setLocation(currentUser.getValue().getLocation())
-//                    .setAge(currentUser.getValue().getAge()).setFeet(currentUser.getValue().getFeet()).setInches(currentUser.getValue().getInches()).
-//                            setWeight(currentUser.getValue().getWeight()).setSex(currentUser.getValue().getSex()).setGoal(currentUser.getValue().getGoal()).
-//                            setActivity(currentUser.getValue().getActivity()).setGoalChange(currentUser.getValue().getGoalChange()).createUserTable();
-//            UserTable userTable = new UserTableBuilder().setName(userName).setLocation(users.getValue().get(0).getLocation())
-//                    .setAge(users.getValue().get(0).getAge()).setFeet(users.getValue().get(0).getFeet()).setInches(users.getValue().get(0).getInches()).
-//                            setWeight(users.getValue().get(0).getWeight()).setSex(users.getValue().get(0).getSex()).setGoal(users.getValue().get(0).getGoal()).
-//                            setActivity(users.getValue().get(0).getActivity()).setGoalChange(users.getValue().get(0).getGoalChange()).createUserTable();
-//            Database.databaseExecutor.execute(() -> {
-//                userDao.insert(userTable);
-//            });
+
         }
     }
 
@@ -186,6 +176,5 @@ public class Repository {
             });
         }
     }
-
 
 }

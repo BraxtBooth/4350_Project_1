@@ -149,22 +149,8 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
                         mSensorManager.unregisterListener(this, mStepCounter);
                         tvSteps.setText("Not Activated");
 
-                        //public LiveData<UserTable> getUserData(){
-                        //        return userData;
-                        //    }
-
-//                        // testing date formats
-//                        Calendar calendar;
-//                        SimpleDateFormat dateFormat;
-//                        String date;
-//                        calendar = Calendar.getInstance();
-//                        dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-//                        date = dateFormat.format(calendar.getTime());
-//                        Toast.makeText(this, date, Toast.LENGTH_LONG).show();
                         String steps = userViewModel.getUserData().getValue().getSteps();
                         String dates = userViewModel.getUserData().getValue().getDates();
-//                        String[] stepsArray = steps.split("/");
-//                        String[] datesArray = steps.split("/");
                         ArrayList<String> stepsArray = new ArrayList<>(Arrays.asList(steps.split("/")));  //  23/5454/23232/43423/
                         ArrayList<String> datesArray = new ArrayList<>(Arrays.asList(dates.split("/")));
                         if(stepsArray.size() == 30) stepsArray.remove(stepsArray.size()-1);
@@ -289,81 +275,10 @@ public class MasterListFragment extends Fragment implements SensorEventListener 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-//        String imageUri = sp.getString("image", "");
-//        Log.println(Log.ASSERT, "===============myTAG:", imageUri);
-
-//        ImageView profileImg = (ImageView) getView().findViewById(R.id.ivProfileImage);
-//        if(imageUri == ""){
-//            profileImg.setImageResource(R.drawable.user_icon);
-//        }else{
-//            loadImageFromStorage(imageUri);
-//        }
-
         BMRText = (TextView) getView().findViewById(R.id.tvMBRValue);
         CaloriesText = (TextView) getView().findViewById(R.id.tvCaloriesValue);
         CaloriesWarning = (TextView) getView().findViewById(R.id.tvCalorieWarning);
-
         tvSteps = (TextView) getView().findViewById(R.id.tvStepCounter);
-
-//        String BMRTextOutput = "Please enter height, weight, age, and sex on profile page";
-//        String CaloriesTextOutput = "";
-//        float feet = sp.getInt("feet", 0);
-//        float inches = sp.getInt("inches", 0);
-//        float weight = sp.getInt( "weight", 0);
-//        float age = sp.getInt("age", 0);
-//        int sex = sp.getInt("sex", 0);
-//        String[] sexEntries = getResources().getStringArray(R.array.Sex_Array);
-//        int activityIndex = sp.getInt("activity", 0);
-//        int goalIndex = sp.getInt("goals", 0);
-//        Integer lbsChange = sp.getInt("lbschange", 0);
-//        float bmr = 0;
-//        float calorieFactor = (float) (activityIndex==0 ? 1.55 : 1.2);
-//        float calorieIntake = 0;
-//
-//        if(feet !=0 && weight!=0 && age != 0){
-//            DecimalFormat df = new DecimalFormat();
-//            df.setMaximumFractionDigits(2);
-//            float totalHeight = feet*12 + inches;
-//            if(sexEntries[sex].equals("Male")){
-//                bmr = (float) (66.47+(6.24*weight)+(12.7*totalHeight)-(6.755*age));
-//                BMRTextOutput = String.valueOf(df.format(bmr));
-//            }
-//            else if(sexEntries[sex].equals("Female")){
-//                bmr = (float) (655.1 + (4.35*weight) + (4.7*totalHeight) - (4.7*age));
-//                BMRTextOutput = String.valueOf(df.format(bmr));
-//            }
-//            else{
-//                BMRTextOutput = "Cannot calculate BMR based on Sex";
-//            }
-//
-//            if(bmr != 0) {
-//                if (goalIndex == 0) {
-//                    //Gain Weight
-//                    calorieIntake = bmr*calorieFactor+(lbsChange==1 ? 500: 1000);
-//                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
-//
-//                } else if (goalIndex == 1) {
-//                    //Lose Weight
-//                    calorieIntake = bmr*calorieFactor-(lbsChange==1 ? 500: 1000);
-//                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
-//                } else if (goalIndex == 2) {
-//                    //Maintain Weight
-//                    calorieIntake = bmr*calorieFactor;
-//                    CaloriesTextOutput = String.valueOf(df.format(calorieIntake));
-//                }
-//            }
-//        }
-//        BMRText.setText(BMRTextOutput);
-//        CaloriesText.setText(CaloriesTextOutput);
-//
-//        if((calorieIntake < 1200 && sexEntries[sex].equals("Male")) || (calorieIntake<1000 && sexEntries[sex].equals("Females"))){
-//            CaloriesWarning.setVisibility(View.VISIBLE);
-//        }
-//        else{
-//            CaloriesWarning.setVisibility(View.GONE);
-//        }
-
     }
 
     private void loadImageFromStorage(String imgName)

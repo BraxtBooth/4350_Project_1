@@ -21,7 +21,6 @@ public class StepsFragment extends Fragment {
 
     UserViewModel userViewModel;
     String steps, dates;
-    String[] steps_dates_array;
     ListView lvSteps;
     ArrayList<String> stepsArray, datesArray;
 
@@ -35,14 +34,9 @@ public class StepsFragment extends Fragment {
         steps = userViewModel.getUserData().getValue().getSteps();
         dates = userViewModel.getUserData().getValue().getDates();
         stepsArray = new ArrayList<>(Arrays.asList(steps.split("/")));
-//        Toast.makeText(getContext(), stepsArray.get(2), Toast.LENGTH_LONG).show();
         datesArray = new ArrayList<>(Arrays.asList(dates.split("/")));
 
         lvSteps = view.findViewById(R.id.lvSteps);
-//        for(int i=0; i<stepsArray.size(); i++){
-//
-//        }
-//        String[] steps = stepsArray.toArray(new String[stepsArray.size()]);
 
         if(!stepsArray.get(0).equals("")) {
             ArrayAdapter<String> stepsListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1);

@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.4350_Project_1">
         <activity
+            android:name=".HelpActivity"
+            android:exported="false" />
+        <activity
             android:name=".StepsActivity"
             android:exported="false" />
         <activity
@@ -37,16 +40,6 @@
         <activity
             android:name=".BMIActivity"
             android:exported="false" />
-<!--        <activity-->
-<!--            android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-<!--                <data android:scheme="myapp" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
     </application>
 
 </manifest>

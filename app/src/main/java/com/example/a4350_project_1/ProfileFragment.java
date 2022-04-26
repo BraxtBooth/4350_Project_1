@@ -100,28 +100,6 @@ public class ProfileFragment extends Fragment {
         lbsChange.setMinValue(1);
         lbsChange.setMaxValue(2);
 
-//        String nameValue = sp.getString("name", "John");
-//        Integer ageValue = sp.getInt("age", 25);
-//        String locationValue = sp.getString("location", "Salt Lake City, US");
-//        Integer heightFeetValue = sp.getInt("feet", 5);
-//        Integer heightInchesValue = sp.getInt("inches", 11);
-//        Integer weightValue = sp.getInt("weight", 175);
-//        Integer sexValue = sp.getInt("sex", 0);
-//        Integer goalsValue = sp.getInt("goals", 0);
-//        Integer activityValue = sp.getInt("activity", 0);
-//        Integer lbsChangeValue = sp.getInt( "lbschange", 0);
-
-//        nameText.setText(nameValue);
-//        ageText.setText(ageValue.toString());
-//        locationText.setText(locationValue);
-//        heightFeet.setValue(heightFeetValue);
-//        heightInches.setValue(heightInchesValue);
-//        weightText.setText(weightValue.toString());
-//        sexText.setSelection(sexValue);
-//        goalsText.setSelection(goalsValue);
-//        activityText.setSelection(activityValue);
-//        lbsChange.setValue(lbsChangeValue);
-
         goalsText.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -162,20 +140,6 @@ public class ProfileFragment extends Fragment {
         saveProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-//                SharedPreferences.Editor editor = sp.edit();
-//                editor.putString("name", nameText.getText().toString());
-//                editor.putInt("age", Integer.parseInt(String.valueOf(ageText.getText())));
-//                editor.putString("location", locationText.getText().toString());
-//                editor.putInt("feet", heightFeet.getValue());
-//                editor.putInt("inches", heightInches.getValue());
-//                editor.putInt("weight", Integer.parseInt(String.valueOf(weightText.getText())));
-//                editor.putInt("sex", sexText.getSelectedItemPosition());
-//                editor.putInt("goals", goalsText.getSelectedItemPosition());
-//                editor.putInt("activity", activityText.getSelectedItemPosition());
-//                editor.putInt("lbschange", lbsChange.getValue());
-//                editor.apply();
-
                 userViewModel.updateUser(emailText.getText().toString(), nameText.getText().toString(),
                         Integer.parseInt(String.valueOf(ageText.getText())), locationText.getText().toString(),
                                 heightFeet.getValue(), heightInches.getValue(), Integer.parseInt(String.valueOf(weightText.getText())),

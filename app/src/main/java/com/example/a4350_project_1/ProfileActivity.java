@@ -139,11 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
 
-//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.putString("image", generatedFilename);
-//        editor.apply();
-
+        // save new image URI to database
         userViewModel.updateUserImageURI(generatedFilename);
 
         return directory.getAbsolutePath();

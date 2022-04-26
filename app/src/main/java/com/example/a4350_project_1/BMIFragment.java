@@ -44,24 +44,6 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
                 "screens for weight categories that may lead to health problems, but it does not " +
                 "diagnose the body fatness or health of an individual.");
 
-//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-//        outputText = "Please enter height and weight on profile page";
-//
-//        feet = sp.getInt("feet", 0);
-//        inches = sp.getInt("inches", 0);
-//        weight = sp.getInt( "weight", 0);
-//
-//        if(feet !=0 && weight != 0){
-//            DecimalFormat df = new DecimalFormat();
-//            df.setMaximumFractionDigits(2);
-//            float totalHeight = feet*12 + inches;
-//            float bmi = (weight/(totalHeight*totalHeight))*703;
-//            outputText = "Your BMI is: " + String.valueOf(df.format(bmi) + "");
-//        }
-//
-//        tvBMI = (TextView) view.findViewById(R.id.tvBMI);
-//        tvBMI.setText(outputText);
-
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         userViewModel.getUserData().observe(getViewLifecycleOwner(), userObserver);
 
@@ -71,17 +53,6 @@ public class BMIFragment extends Fragment implements View.OnClickListener {
     final Observer<UserTable> userObserver = new Observer<UserTable>() {
         @Override
         public void onChanged(UserTable userTable) {
-//            emailText.setText(userTable.getEmail());
-//            nameText.setText(userTable.getName());
-//            ageText.setText(String.valueOf(userTable.getAge()));
-//            locationText.setText(userTable.getLocation());
-//            heightFeet.setValue(userTable.getFeet());
-//            heightInches.setValue(userTable.getInches());
-//            weightText.setText(String.valueOf(userTable.getWeight()));
-//            sexText.setSelection(userTable.getSex());
-//            goalsText.setSelection(userTable.getGoal());
-//            activityText.setSelection(userTable.getActivity());
-//            lbsChange.setValue(userTable.getGoalChange());
             outputText = "Please enter height and weight on profile page";
 
             feet = userTable.getFeet();

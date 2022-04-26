@@ -60,18 +60,8 @@ public class HeadActivity extends AppCompatActivity
         }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-//        tvSteps = (TextView) findViewById(R.id.tvStepCounter);
-
-        //Put this into a bundle
-//        Bundle fragmentBundle = new Bundle();
-//        fragmentBundle.putParcelable("item_list", mCustomListData);
-
         //Create the fragment
         mMasterListFragment = new MasterListFragment();
-
-        //Pass data to the fragment
-//        mMasterListFragment.setArguments(fragmentBundle);
-
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
         userViewModel = new ViewModelProvider( this).get(UserViewModel.class);
         userViewModel.setCurrentUser();
@@ -86,19 +76,6 @@ public class HeadActivity extends AppCompatActivity
             Log.e("Amplify", "Could not initialize Amplify", error);
         }
 
-//        // get sensor manager
-//        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-//        // get default light(shake) sensor
-//        mYAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-////        mStepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-//        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null){
-//            mStepCounter= mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-////            isCounterSensorPresent = true;
-//        } else {
-//            tvSteps.setText("--");
-////            isCounterSensorPresent = false;
-//        }
-
         //If we're on a tablet, the master fragment appears on the left pane. If we're on a phone,
         //it takes over the whole screen
         FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
@@ -110,50 +87,6 @@ public class HeadActivity extends AppCompatActivity
         }
         fTrans.commit();
     }
-
-//    private SensorEventListener mAccelerometerListener = new SensorEventListener() {
-//        @Override
-//        public void onSensorChanged(SensorEvent sensorEvent) {
-//            now_y = sensorEvent.values[1];
-//            if(notFirstTime){
-//                double dy = Math.abs(last_y - now_y);
-//                if(dy > shakeSensitivityThreshold){
-//                    Toast.makeText(getApplicationContext(), "it worked", Toast.LENGTH_SHORT).show();
-//                    //Toast.makeText(this, "Step Counter STOPPED", Toast.LENGTH_SHORT).show();
-//                    play();
-//                    isCounterSensorPresent = true;
-//                }
-//            }
-//            last_y = now_y;
-//            notFirstTime = true;
-//        }
-//
-//        @Override
-//        public void onAccuracyChanged(Sensor sensor, int i) {
-//
-//        }
-//    };
-//
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if(mAccelerometerListener!=null){
-//            mSensorManager.registerListener(mAccelerometerListener, mYAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-//        }
-//        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
-//            mSensorManager.registerListener(this, mStepCounter, SensorManager.SENSOR_DELAY_NORMAL);
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        if(mYAccelerometer!=null){
-//            mSensorManager.unregisterListener(mAccelerometerListener);
-//        }
-//        if(mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null)
-//            mSensorManager.unregisterListener(this, mStepCounter);
-//    }
 
     //This receives the position of the clicked item in the MasterListFragment's RecyclerView
     @Override
@@ -209,6 +142,13 @@ public class HeadActivity extends AppCompatActivity
                 fTrans.replace(R.id.itemdetail_container_tablet, stepsFragment, "steps-fragment");
                 fTrans.commit();
             }
+            else if(position == 6){
+                Fragment headFragment = new HelpFragment();
+                headFragment.setArguments(detailBundle);
+                FragmentTransaction fTrans = getSupportFragmentManager().beginTransaction();
+                fTrans.replace(R.id.itemdetail_container_tablet, headFragment, "head-fragment");
+                fTrans.commit();
+            }
         }
 
         else{ //On a phone
@@ -246,7 +186,11 @@ public class HeadActivity extends AppCompatActivity
                 sendIntent.putExtras(detailBundle);
                 startActivity(sendIntent);
             }
-
+            else if(position == 6){
+                Intent sendIntent = new Intent(this, HelpActivity.class);
+                sendIntent.putExtras(detailBundle);
+                startActivity(sendIntent);
+            }
         }
     }
 
@@ -255,7 +199,6 @@ public class HeadActivity extends AppCompatActivity
     }
 
     // = = = = = = = CODE FOR IMAGE UPLOAD
-
     public void selectImage(Context context) {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
 
@@ -345,11 +288,7 @@ public class HeadActivity extends AppCompatActivity
             }
         }
 
-//        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        SharedPreferences.Editor editor = sp.edit();
-//        editor.putString("image", generatedFilename);
-//        editor.apply();
-
+        // update image uri in database
         userViewModel.updateUserImageURI(generatedFilename);
 
         return directory.getAbsolutePath();
