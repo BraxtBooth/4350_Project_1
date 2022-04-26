@@ -1,0 +1,18 @@
+{
+  "resourceName": "S3Room",
+  "policyUUID": "c3ee294a",
+  "bucketName": "4350project1a0f36702b88c42e18e77f665cdf680ad",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}
