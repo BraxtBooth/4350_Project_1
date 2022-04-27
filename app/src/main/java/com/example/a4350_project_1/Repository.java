@@ -89,12 +89,13 @@ public class Repository {
     public void updateUserSteps(String steps){
         Database.databaseExecutor.execute(() -> {
             userDao.updateUserSteps(steps);
+            try{
+                AWSAmplify.uploadDBFile();
+            } catch (Exception e){
+                Log.e("Amplify", "Step Count insert amplify error", e);
+            }
         });
-        try{
-            AWSAmplify.uploadDBFile();
-        } catch (Exception e){
-            Log.e("Amplify", "Step Count insert amplify error", e);
-        }
+
     }
 
     private void insertWeatherInfo(){
@@ -104,11 +105,11 @@ public class Repository {
                 mWeatherDao.insert(weatherTable);
             });
         }
-        try{
-            AWSAmplify.uploadDBFile();
-        } catch (Exception e){
-            Log.e("Amplify", "Weather insert amplify error", e);
-        }
+//        try{
+//            AWSAmplify.uploadDBFile();
+//        } catch (Exception e){
+//            Log.e("Amplify", "Weather insert amplify error", e);
+//        }
     }
 
     private void insertUserInfo(){

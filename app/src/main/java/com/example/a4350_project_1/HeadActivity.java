@@ -45,8 +45,8 @@ public class HeadActivity extends AppCompatActivity
 
     private static final CustomListData mCustomListData  = new CustomListData();
     private MasterListFragment mMasterListFragment;
-    WeatherViewModel weatherViewModel;
-    UserViewModel userViewModel;
+    private WeatherViewModel weatherViewModel;
+    private UserViewModel userViewModel;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -70,7 +70,6 @@ public class HeadActivity extends AppCompatActivity
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
-
             Log.i("Amplify", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("Amplify", "Could not initialize Amplify", error);

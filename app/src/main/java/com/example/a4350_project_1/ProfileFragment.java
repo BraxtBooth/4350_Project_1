@@ -31,6 +31,7 @@ public class ProfileFragment extends Fragment {
 
     private UserTable userData;
     private UserViewModel userViewModel;
+    private WeatherViewModel weatherViewModel;
 
     EditText emailText;
     EditText nameText;
@@ -54,6 +55,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_second, container, false);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
         userViewModel.getUserData().observe(getViewLifecycleOwner(), userObserver);
 
 //        loadUserDataToScreen();
@@ -145,6 +147,8 @@ public class ProfileFragment extends Fragment {
                                 heightFeet.getValue(), heightInches.getValue(), Integer.parseInt(String.valueOf(weightText.getText())),
                                         sexText.getSelectedItemPosition(), goalsText.getSelectedItemPosition(),
                                         activityText.getSelectedItemPosition(), lbsChange.getValue() );
+
+                weatherViewModel.setLocation(locationText.getText().toString());
 
                 Activity activity = getActivity();
                 Toast.makeText(activity, "Information Saved.", Toast.LENGTH_LONG).show();
